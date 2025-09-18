@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasifu - Afya ya Familia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .profile-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .profile-info h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .profile-info .details {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .health-status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 1.8rem;
+        }
+
+        .current-issues {
+            border-left: 4px solid #ff9800;
+        }
+
+        .chronic-diseases {
+            border-left: 4px solid #2196f3;
+        }
+
+        .medications {
+            border-left: 4px solid #4caf50;
+        }
+
+        .issue-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff5722;
+        }
+
+        .issue-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .issue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .chronic-header, .medication-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-btn, .delete-btn {
+            background: none;
+            border: none;
+            padding: 6px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: rgba(33, 150, 243, 0.1);
+        }
+
+        .delete-btn:hover {
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .example-section {
+            margin-bottom: 25px;
+        }
+
+        .example-label {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .example-card {
+            opacity: 0.8;
+            border-left-color: #90a4ae !important;
+        }
+
+        .issue-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .issue-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .issue-symptoms {
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .issue-status {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: #fff3cd;
+            color: #856404;
+            display: inline-block;
+        }
+
+        .chronic-card {
+            background: #f0f8ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .medication-card {
+            background: #f0f8f0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .add-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .add-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .no-data {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .avatar-1 { background: #e91e63; }
+        .status-good { background: #e8f5e8; color: #4caf50; }
+        .status-monitoring { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="goBack()">← Kurudi</button>
+
+        <!-- Шапка профиля -->
+        <div class="profile-header">
+            <div class="profile-avatar avatar-1" id="profileAvatar">M</div>
+            <div class="profile-info">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+                    <h1 id="memberName">Mama</h1>
+                    <button class="edit-btn" onclick="editBasicInfo()" title="Hariri taarifa za msingi">✏️</button>
+                </div>
+                <div class="details">
+                    <span id="memberAge">Umri: 35 miaka</span> • 
+                    <span id="memberGender">Mke</span>
+                </div>
+                <div class="health-status-badge status-monitoring" id="healthStatus">
+                    Nafuatiliwa
+                </div>
+            </div>
+        </div>
+
+        <!-- Текущие проблемы со здоровьем -->
+        <div class="section current-issues">
+            <h2>
+                <span class="section-icon">🏥</span>
+                Matatizo ya Sasa ya Afya
+            </h2>
+            
+            <div id="currentIssues">
+                <!-- Примеры (показать что это примеры) -->
+                <div class="example-section">
+                    <div class="example-label">📝 Mfano wa jinsi itakavyoonekana:</div>
+                    
+                    <div class="issue-card example-card">
+                        <div class="issue-header">
+                            <span class="issue-title">Homa na Kikohozi</span>
+                            <span class="issue-date">15 Sept 2025</span>
+                            <div class="action-buttons">
+                                <button class="edit-btn" onclick="editIssue(1)">✏️</button>
+                                <button class="delete-btn" onclick="deleteIssue(1)">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="issue-symptoms">
+                            Dalili: Homa 38.5°C, kikohozi cha makavu, maumivu ya kichwa
+                        </div>
+                        <div class="issue-status">Anapata matibabu</div>
+                    </div>
+
+                    <div class="issue-card example-card">
+                        <div class="issue-header">
+                            <span class="issue-title">Maumivu ya Miguu</span>
+                            <span class="issue-date">10 Sept 2025</span>
+                            <div class="action-buttons">
+                                <button class="edit-btn" onclick="editIssue(2)">✏️</button>
+                                <button class="delete-btn" onclick="deleteIssue(2)">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="issue-symptoms">
+                            Dalili: Maumivu makali ya miguu wakati wa usiku
+                        </div>
+                        <div class="issue-status">Inahitaji ufuatiliaji</div>
+                    </div>
+                </div>
+
+                <!-- Реальные данные пользователя (пока пусто) -->
+                <div class="no-data" id="noIssuesMessage">
+                    Hakuna matatizo ya afya ya sasa.<br>
+                    Bonyeza kitufe hapo chini kuongeza.
+                </div>
+            </div>
+
+            <button class="add-button" onclick="addNewIssue()">
+                + Ongeza Tatizo Jipya la Afya
+            </button>
+        </div>
+
+        <!-- Magonjwa ya kudumu -->
+        <div class="section chronic-diseases">
+            <h2>
+                <span class="section-icon">⚕️</span>
+                Magonjwa ya Kudumu
+            </h2>
+            
+            <div id="chronicDiseases">
+                <!-- Примеры -->
+                <div class="example-section">
+                    <div class="example-label">📝 Mfano wa jinsi itakavyoonekana:</div>
+                    
+                    <div class="chronic-card example-card">
+                        <div class="chronic-header">
+                            <strong>Shinikizo la Damu (Hypertension)</strong>
+                            <div class="action-buttons">
+                                <button class="edit-btn" onclick="editChronic(1)">✏️</button>
+                                <button class="delete-btn" onclick="deleteChronic(1)">🗑️</button>
+                            </div>
+                        </div>
+                        <div style="margin-top: 8px; color: #666;">
+                            Iligunduliwa: 2020 • Hali: Inasimamishwa vizuri
+                        </div>
+                    </div>
+
+                    <div class="chronic-card example-card">
+                        <div class="chronic-header">
+                            <strong>Diabetes Aina ya 2</strong>
+                            <div class="action-buttons">
+                                <button class="edit-btn" onclick="editChronic(2)">✏️</button>
+                                <button class="delete-btn" onclick="deleteChronic(2)">🗑️</button>
+                            </div>
+                        </div>
+                        <div style="margin-top: 8px; color: #666;">
+                            Iligunduliwa: 2018 • Hali: Inahitaji udhibiti makini
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Реальные данные -->
+                <div class="no-data" id="noChronicMessage">
+                    Hakuna magonjwa ya kudumu yaliyorekodiwa.<br>
+                    Bonyeza kitufe hapo chini kuongeza.
+                </div>
+            </div>
+
+            <button class="add-button" onclick="addChronicDisease()">
+                + Ongeza Ugonjwa wa Kudumu
+            </button>
+        </div>
+
+        <!-- Dawa za kila siku -->
+        <div class="section medications">
+            <h2>
+                <span class="section-icon">💊</span>
+                Dawa za Kila Siku
+            </h2>
+            
+            <div id="medications">
+                <!-- Примеры -->
+                <div class="example-section">
+                    <div class="example-label">📝 Mfano wa jinsi itakavyoonekana:</div>
+                    
+                    <div class="medication-card example-card">
+                        <div class="medication-header">
+                            <strong>Amlodipine 5mg</strong>
+                            <div class="action-buttons">
+                                <button class="edit-btn" onclick="editMedication(1)">✏️</button>
+                                <button class="delete-btn" onclick="deleteMedication(1)">🗑️</button>
+                            </div>
+                        </div>
+                        <div style="margin-top: 8px; color: #666;">
+                            Kwa shinikizo la damu • Mara 1 kwa siku asubuhi
+                        </div>
+                    </div>
+
+                    <div class="medication-card example-card">
+                        <div class="medication-header">
+                            <strong>Metformin 850mg</strong>
+                            <div class="action-buttons">
+                                <button class="edit-btn" onclick="editMedication(2)">✏️</button>
+                                <button class="delete-btn" onclick="deleteMedication(2)">🗑️</button>
+                            </div>
+                        </div>
+                        <div style="margin-top: 8px; color: #666;">
+                            Kwa diabetes • Mara 2 kwa siku baada ya chakula
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Реальные данные -->
+                <div class="no-data" id="noMedicationMessage">
+                    Hakuna dawa za kila siku zilizorekodiwa.<br>
+                    Bonyeza kitufe hapo chini kuongeza.
+                </div>
+            </div>
+
+            <button class="add-button" onclick="addMedication()">
+                + Ongeza Dawa ya Kila Siku
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Временные данные профиля (потом из URL параметров или localStorage)
+        const memberData = {
+            id: 'mama',
+            name: 'Mama',
+            age: 35,
+            gender: 'Mke',
+            avatar: 'M',
+            healthStatus: 'monitoring',
+            currentIssues: [
+                {
+                    id: 1,
+                    title: 'Homa na Kikohozi',
+                    symptoms: 'Homa 38.5°C, kikohozi cha makavu, maumivu ya kichwa',
+                    date: '15 Sept 2025',
+                    status: 'Anapata matibabu'
+                }
+            ],
+            chronicDiseases: [
+                {
+                    id: 1,
+                    name: 'Shinikizo la Damu (Hypertension)',
+                    diagnosed: '2020',
+                    status: 'Inasimamishwa vizuri'
+                }
+            ],
+            medications: [
+                {
+                    id: 1,
+                    name: 'Amlodipine 5mg',
+                    purpose: 'Kwa shinikizo la damu',
+                    dosage: 'Mara 1 kwa siku asubuhi'
+                }
+            ]
+        };
+
+        function goBack() {
+            // Возврат к списку карточек семьи
+            window.history.back();
+            // Или: window.location.href = 'family-cards.html';
+        }
+
+        function addNewIssue() {
+            alert('Kuongeza tatizo jipya la afya\n(Hii ni kwa majaribio - tutaunda ukurasa maalum)');
+            
+            // TODO: Переход к странице добавления болезни
+            // window.location.href = 'add-health-issue.html?member=' + memberData.id;
+        }
+
+        function addChronicDisease() {
+            alert('Kuongeza ugonjwa wa kudumu\n(Hii ni kwa majaribio)');
+        }
+
+        function editBasicInfo() {
+            alert('Kuhariri taarifa za msingi:\n- Jina\n- Umri\n- Jinsia\n\n(Hii ni kwa majaribio)');
+            // TODO: Открыть форму для редактирования базовой информации
+        }
+
+        function editIssue(id) {
+            alert(`Kuhariri tatizo la afya: ${id}\n(Hii ni kwa majaribio)`);
+            // TODO: Открыть форму редактирования
+        }
+
+        function deleteIssue(id) {
+            if (confirm('Una uhakika unataka kufuta tatizo hili la afya?')) {
+                alert(`Kufuta tatizo: ${id}\n(Hii ni kwa majaribio)`);
+                // TODO: Удалить из данных и обновить интерфейс
+            }
+        }
+
+        function editChronic(id) {
+            alert(`Kuhariri ugonjwa wa kudumu: ${id}\n(Hii ni kwa majaribio)`);
+        }
+
+        function deleteChronic(id) {
+            if (confirm('Una uhakika unataka kufuta ugonjwa huu wa kudumu?')) {
+                alert(`Kufuta ugonjwa wa kudumu: ${id}\n(Hii ni kwa majaribio)`);
+            }
+        }
+
+        function editMedication(id) {
+            alert(`Kuhariri dawa: ${id}\n(Hii ni kwa majaribio)`);
+        }
+
+        function deleteMedication(id) {
+            if (confirm('Una uhakika unataka kufuta dawa hii?')) {
+                alert(`Kufuta dawa: ${id}\n(Hii ni kwa majaribio)`);
+            }
+        }
+
+        // Инициализация при загрузке
+        function initProfile() {
+            // TODO: Получить данные из URL параметров
+            // const urlParams = new URLSearchParams(window.location.search);
+            // const memberId = urlParams.get('id');
+            
+            console.log('Профиль члена семьи загружен:', memberData.name);
+        }
+
+        // Загрузка при открытии страницы
+        window.onload = initProfile;
+    </script>
+</body>
+</html>
