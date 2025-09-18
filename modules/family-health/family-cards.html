@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afya ya Familia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .family-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .family-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .family-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .family-card .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .family-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .family-card .role {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .family-card .health-status {
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-good {
+            background: #e8f5e8;
+            color: #4caf50;
+        }
+
+        .status-monitoring {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .add-member-card {
+            background: rgba(255,255,255,0.1);
+            border: 2px dashed rgba(255,255,255,0.5);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .add-member-card:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: white;
+        }
+
+        .add-member-card .plus-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .add-member-card p {
+            font-size: 1.1rem;
+        }
+
+        /* Цвета для аватаров */
+        .avatar-1 { background: #e91e63; }
+        .avatar-2 { background: #2196f3; }
+        .avatar-3 { background: #ff9800; }
+        .avatar-4 { background: #4caf50; }
+        .avatar-5 { background: #9c27b0; }
+        .avatar-6 { background: #f44336; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Afya ya Familia</h1>
+            <p>Habari za Afya ya Familia Yako</p>
+        </div>
+
+        <div class="family-grid" id="familyGrid">
+            <!-- Примеры карточек семьи -->
+            <div class="family-card" onclick="openProfile('mama')">
+                <div class="avatar avatar-1">M</div>
+                <h3>Mama</h3>
+                <p class="role">Mzazi</p>
+                <div class="health-status status-monitoring">Nafuatiliwa</div>
+            </div>
+
+            <div class="family-card" onclick="openProfile('baba')">
+                <div class="avatar avatar-2">B</div>
+                <h3>Baba</h3>
+                <p class="role">Mzazi</p>
+                <div class="health-status status-good">Mzuri</div>
+            </div>
+
+            <div class="family-card" onclick="openProfile('mtoto1')">
+                <div class="avatar avatar-3">A</div>
+                <h3>Amina</h3>
+                <p class="role">Mtoto (8 miaka)</p>
+                <div class="health-status status-good">Mzuri</div>
+            </div>
+
+            <div class="family-card" onclick="openProfile('mtoto2')">
+                <div class="avatar avatar-4">J</div>
+                <h3>Juma</h3>
+                <p class="role">Mtoto (5 miaka)</p>
+                <div class="health-status status-monitoring">Nafuatiliwa</div>
+            </div>
+
+            <div class="family-card" onclick="openProfile('bibi')">
+                <div class="avatar avatar-5">N</div>
+                <h3>Nyawira</h3>
+                <p class="role">Bibi</p>
+                <div class="health-status status-monitoring">Nafuatiliwa</div>
+            </div>
+
+            <!-- Карточка добавления нового члена -->
+            <div class="family-card add-member-card" onclick="addNewMember()">
+                <div class="plus-icon">+</div>
+                <p>Ongeza Mwanafamilia</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Временные данные семьи (потом будет из localStorage)
+        let familyMembers = [
+            {
+                id: 'mama',
+                name: 'Mama',
+                role: 'Mzazi',
+                age: 35,
+                healthStatus: 'monitoring',
+                avatar: 'M',
+                color: 'avatar-1'
+            },
+            {
+                id: 'baba', 
+                name: 'Baba',
+                role: 'Mzazi',
+                age: 38,
+                healthStatus: 'good',
+                avatar: 'B',
+                color: 'avatar-2'
+            },
+            {
+                id: 'mtoto1',
+                name: 'Amina', 
+                role: 'Mtoto (8 miaka)',
+                age: 8,
+                healthStatus: 'good',
+                avatar: 'A',
+                color: 'avatar-3'
+            },
+            {
+                id: 'mtoto2',
+                name: 'Juma',
+                role: 'Mtoto (5 miaka)', 
+                age: 5,
+                healthStatus: 'monitoring',
+                avatar: 'J',
+                color: 'avatar-4'
+            },
+            {
+                id: 'bibi',
+                name: 'Nyawira',
+                role: 'Bibi',
+                age: 65,
+                healthStatus: 'monitoring', 
+                avatar: 'N',
+                color: 'avatar-5'
+            }
+        ];
+
+        function openProfile(memberId) {
+            // Пока просто alert, потом будет переход к профилю
+            const member = familyMembers.find(m => m.id === memberId);
+            alert(`Kufungua wasifu wa ${member.name}\n(Hii ni kwa majaribio)`);
+            
+            // TODO: Переход к странице профиля
+            // window.location.href = `member-profile.html?id=${memberId}`;
+        }
+
+        function addNewMember() {
+            // Пока простой prompt, потом будет модальное окно
+            const name = prompt('Jina la mwanafamilia mpya:');
+            if (name && name.trim()) {
+                alert(`Kuongeza ${name.trim()}\n(Hii ni kwa majaribio)`);
+                
+                // TODO: Добавить нового члена семьи
+                // addMemberToFamily(name.trim());
+            }
+        }
+
+        // Функция для отображения карточек (для будущего использования)
+        function renderFamilyCards() {
+            const grid = document.getElementById('familyGrid');
+            // TODO: Динамическое создание карточек из данных
+        }
+
+        console.log('Family Health Cards загружены успешно!');
+    </script>
+</body>
+</html>
