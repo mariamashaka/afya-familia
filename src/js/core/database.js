@@ -1,0 +1,52 @@
+// Простое локальное хранилище на localStorage пока
+// Потом переделаем на IndexedDB
+
+class FamilyHealthDB {
+    constructor() {
+        this.dbName = 'AfyaFamilia';
+        this.initDB();
+    }
+
+    initDB() {
+        // Проверяем есть ли уже данные
+        if (!localStorage.getItem(this.dbName)) {
+            const initialData = {
+                families: [],
+                members: [],
+                chronicConditions: [],
+                acuteEpisodes: [],
+                monitoringRecords: []
+            };
+            localStorage.setItem(this.dbName, JSON.stringify(initialData));
+        }
+    }
+
+    // Получить все данные
+    getData() {
+        return JSON.parse(localStorage.getItem(this.dbName));
+    }
+
+    // Сохранить данные
+    saveData(data) {
+        localStorage.setItem(this.dbName, JSON.stringify(data));
+    }
+
+    // Добавить хроническое заболевание
+    addChronicCondition(condition) {
+        const data = this.getData();
+        condition.id = 'chronic_' + Date.now();
+        condition.createdAt = new Date().toISOString();
+        data.chronicConditions.push(condition);
+        this.saveData(data);
+        return condition.id;
+    }
+
+    // Получить хронические заболевания члена семьи
+    getChronicConditions(memberId) {
+        const data = this.getData();
+        return data.chronicConditions.filter(c => c.memberId === memberId);
+    }
+}
+
+// Создаем глобальный объект БД
+window.familyDB = new FamilyHealthDB();
