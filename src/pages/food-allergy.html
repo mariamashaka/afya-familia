@@ -37,12 +37,44 @@
             margin-bottom: 10px;
         }
 
+        .child-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .child-selector select {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            font-size: 1rem;
+        }
+
+        .add-child-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
         .child-info {
             display: flex;
             align-items: center;
             gap: 15px;
             color: #666;
             font-size: 1.1rem;
+        }
+
+        .no-child-message {
+            background: #fff3cd;
+            color: #856404;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
         }
 
         .tabs {
@@ -166,6 +198,16 @@
             flex-wrap: wrap;
             gap: 10px;
             margin-top: 15px;
+            min-height: 50px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .foods-list:empty::after {
+            content: "Hakuna chakula kilichorekodiwa leo";
+            color: #999;
+            font-style: italic;
         }
 
         .food-tag {
@@ -176,6 +218,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            height: fit-content;
         }
 
         .food-tag.suspicious {
@@ -246,136 +289,19 @@
             text-align: center;
         }
 
-        .severity-btn.mild {
+        .severity-btn.selected.mild {
             border-color: #ffc107;
             background: #fff8e1;
         }
 
-        .severity-btn.moderate {
+        .severity-btn.selected.moderate {
             border-color: #ff9800;
             background: #fff3e0;
         }
 
-        .severity-btn.severe {
+        .severity-btn.selected.severe {
             border-color: #f44336;
             background: #ffebee;
-        }
-
-        .severity-btn.selected {
-            box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
-        }
-
-        .analysis-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .analysis-title {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .suspect-list {
-            list-style: none;
-        }
-
-        .suspect-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        .suspect-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .confidence-badge {
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
-
-        .confidence-high {
-            background: #ffcdd2;
-            color: #c62828;
-        }
-
-        .confidence-medium {
-            background: #ffe0b2;
-            color: #e65100;
-        }
-
-        .confidence-low {
-            background: #fff9c4;
-            color: #f57c00;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .action-btn {
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            background: white;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .elimination-plan {
-            background: #e8f5e8;
-            border-left: 4px solid #4caf50;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .plan-title {
-            color: #2e7d32;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .plan-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        .plan-status {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #e0e0e0;
-        }
-
-        .plan-status.active {
-            background: #ffc107;
-        }
-
-        .plan-status.completed {
-            background: #4caf50;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .save-button {
@@ -397,42 +323,109 @@
             transform: translateY(-2px);
         }
 
-        .alert-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .alert-box.danger {
-            background: #ffebee;
-            border-left-color: #f44336;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .stat-card {
-            background: #f8f9fa;
+        .analysis-message {
             padding: 20px;
+            background: #f8f9fa;
             border-radius: 10px;
+            text-align: center;
+            color: #666;
+        }
+
+        .suspect-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .suspect-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .plan-message {
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            color: #1976d2;
             text-align: center;
         }
 
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #667eea;
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
         }
 
-        .stat-label {
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background: #e0e0e0;
             color: #666;
-            margin-top: 5px;
+        }
+
+        .btn-save {
+            background: #667eea;
+            color: white;
         }
     </style>
 </head>
@@ -441,295 +434,363 @@
         <!-- Header -->
         <div class="header">
             <h1>🍼 Ufuatiliaji wa Mzio wa Chakula</h1>
-            <div class="child-info">
-                <span>👶 Mtoto: <strong id="childName">Sofia</strong></span>
-                <span>📅 Umri: <strong id="childAge">9 miezi</strong></span>
-                <span>⚠️ Mzio unaojulikana: <strong id="knownAllergies">Kuku, Samaki</strong></span>
+            
+            <div class="child-selector">
+                <label>Chagua Mtoto:</label>
+                <select id="childSelect" onchange="loadChildData()">
+                    <option value="">-- Chagua Mtoto --</option>
+                </select>
+                <button class="add-child-btn" onclick="showAddChildModal()">+ Ongeza Mtoto</button>
+            </div>
+            
+            <div class="child-info" id="childInfo" style="display: none;">
+                <span>👶 <strong id="childName"></strong></span>
+                <span>📅 Umri: <strong id="childAge"></strong></span>
+                <span id="knownAllergiesSpan" style="display: none;">⚠️ Mzio: <strong id="knownAllergies"></strong></span>
             </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('diary')">📝 Kumbukumbu ya Chakula</button>
-            <button class="tab" onclick="switchTab('analysis')">🔍 Uchambuzi</button>
-            <button class="tab" onclick="switchTab('plan')">📋 Mpango wa Majaribio</button>
-            <button class="tab" onclick="switchTab('history')">📊 Historia</button>
-            <button class="tab" onclick="switchTab('report')">🏥 Ripoti ya Daktari</button>
+        <div id="noChildMessage" class="no-child-message">
+            <h3>Hakuna mtoto alichaguliwa</h3>
+            <p>Tafadhali chagua mtoto kutoka kwenye orodha hapo juu au ongeza mtoto mpya</p>
         </div>
 
-        <!-- Tab: Food Diary -->
-        <div id="diary" class="tab-content active">
-            <div class="section">
-                <div class="date-selector">
-                    <button class="date-nav" onclick="changeDate(-1)">←</button>
-                    <span class="current-date" id="currentDate">Leo - 15 Nov 2024</span>
-                    <button class="date-nav" onclick="changeDate(1)">→</button>
-                </div>
-
-                <!-- Food Entry -->
-                <div class="food-entry">
-                    <h3>Chakula cha Leo:</h3>
-                    
-                    <div class="meal-time">
-                        <button class="meal-btn selected" data-meal="breakfast">🌅 Kiamsha kinywa</button>
-                        <button class="meal-btn" data-meal="lunch">☀️ Mchana</button>
-                        <button class="meal-btn" data-meal="snack">🍪 Vitafunio</button>
-                        <button class="meal-btn" data-meal="dinner">🌙 Jioni</button>
-                    </div>
-
-                    <div class="food-input-group">
-                        <input type="text" class="food-input" id="foodInput" 
-                               placeholder="Andika chakula (mfano: ugali, maharage, maziwa)">
-                        <button class="add-food-btn" onclick="addFood()">+ Ongeza</button>
-                    </div>
-
-                    <div class="foods-list" id="todayFoods">
-                        <!-- Vyakula vitaonekana hapa -->
-                    </div>
-                </div>
-
-                <!-- Reaction Recording -->
-                <div class="reaction-section">
-                    <div class="reaction-title">⚠️ Je, kulikuwa na mzio leo?</div>
-                    
-                    <div class="reaction-types">
-                        <label class="reaction-checkbox">
-                            <input type="checkbox" name="reaction" value="upele">
-                            <span>🔴 Upele/Vipele</span>
-                        </label>
-                        <label class="reaction-checkbox">
-                            <input type="checkbox" name="reaction" value="kuvimba">
-                            <span>😷 Kuvimba uso/midomo</span>
-                        </label>
-                        <label class="reaction-checkbox">
-                            <input type="checkbox" name="reaction" value="kutapika">
-                            <span>🤢 Kutapika</span>
-                        </label>
-                        <label class="reaction-checkbox">
-                            <input type="checkbox" name="reaction" value="kuhara">
-                            <span>💩 Kuhara</span>
-                        </label>
-                        <label class="reaction-checkbox">
-                            <input type="checkbox" name="reaction" value="kupumua">
-                            <span>😤 Shida ya kupumua</span>
-                        </label>
-                        <label class="reaction-checkbox">
-                            <input type="checkbox" name="reaction" value="ngozi">
-                            <span>🔥 Kuwashwa ngozi</span>
-                        </label>
-                    </div>
-
-                    <div>
-                        <label>Ukali wa mzio:</label>
-                        <div class="severity-buttons">
-                            <button class="severity-btn mild" onclick="setSeverity('mild')">
-                                😊 Nyepesi
-                            </button>
-                            <button class="severity-btn moderate" onclick="setSeverity('moderate')">
-                                😐 Wastani
-                            </button>
-                            <button class="severity-btn severe" onclick="setSeverity('severe')">
-                                😨 Kali (Hospitali!)
-                            </button>
-                        </div>
-                    </div>
-
-                    <div style="margin-top: 15px;">
-                        <label>Muda baada ya kula:</label>
-                        <select style="width: 100%; padding: 10px; border-radius: 8px; border: 2px solid #e0e0e0;">
-                            <option>Dakika 0-30</option>
-                            <option>Dakika 30-60</option>
-                            <option>Saa 1-2</option>
-                            <option>Saa 2-4</option>
-                            <option>Saa 4+</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button class="save-button" onclick="saveDayEntry()">💾 Hifadhi Rekodi ya Leo</button>
+        <!-- Tabs (hidden initially) -->
+        <div id="mainContent" style="display: none;">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('diary')">📝 Kumbukumbu ya Chakula</button>
+                <button class="tab" onclick="switchTab('analysis')">🔍 Uchambuzi</button>
+                <button class="tab" onclick="switchTab('plan')">📋 Mpango wa Majaribio</button>
+                <button class="tab" onclick="switchTab('history')">📊 Historia</button>
             </div>
-        </div>
 
-        <!-- Tab: Analysis -->
-        <div id="analysis" class="tab-content">
-            <div class="section">
-                <div class="analysis-card">
-                    <div class="analysis-title">🔍 Vyakula Vinavyoshukiwa</div>
-                    
-                    <div class="alert-box">
-                        <strong>💡 Ujumbe:</strong> Tumegundua vyakula 3 ambavyo vinaweza kusababisha mzio. 
-                        Tunapendekeza kuviondoa kimoja kimoja kwa wiki 2.
+            <!-- Tab: Food Diary -->
+            <div id="diary" class="tab-content active">
+                <div class="section">
+                    <div class="date-selector">
+                        <button class="date-nav" onclick="changeDate(-1)">←</button>
+                        <span class="current-date" id="currentDate"></span>
+                        <button class="date-nav" onclick="changeDate(1)">→</button>
                     </div>
 
-                    <ul class="suspect-list">
-                        <li class="suspect-item">
-                            <div class="suspect-info">
-                                <span>🐔 Kuku</span>
-                                <span class="confidence-badge confidence-high">Uwezekano Mkubwa 90%</span>
-                                <small>Mara 5/6 kumekuwa na mzio</small>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="action-btn">Ondoa Wiki 2</button>
-                                <button class="action-btn">Thibitisha</button>
-                            </div>
-                        </li>
+                    <!-- Food Entry -->
+                    <div class="food-entry">
+                        <h3>Rekodi Chakula:</h3>
                         
-                        <li class="suspect-item">
-                            <div class="suspect-info">
-                                <span>🐟 Samaki</span>
-                                <span class="confidence-badge confidence-high">Uwezekano Mkubwa 85%</span>
-                                <small>Mara 4/5 kumekuwa na mzio</small>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="action-btn">Ondoa Wiki 2</button>
-                                <button class="action-btn">Thibitisha</button>
-                            </div>
-                        </li>
+                        <div class="meal-time">
+                            <button class="meal-btn selected" data-meal="breakfast" onclick="selectMeal('breakfast')">🌅 Kiamsha kinywa</button>
+                            <button class="meal-btn" data-meal="lunch" onclick="selectMeal('lunch')">☀️ Mchana</button>
+                            <button class="meal-btn" data-meal="snack" onclick="selectMeal('snack')">🍪 Vitafunio</button>
+                            <button class="meal-btn" data-meal="dinner" onclick="selectMeal('dinner')">🌙 Jioni</button>
+                        </div>
+
+                        <div class="food-input-group">
+                            <input type="text" class="food-input" id="foodInput" 
+                                   placeholder="Andika chakula (mfano: ugali, maharage, maziwa)">
+                            <button class="add-food-btn" onclick="addFood()">+ Ongeza</button>
+                        </div>
+
+                        <div class="foods-list" id="todayFoods"></div>
+                    </div>
+
+                    <!-- Reaction Recording -->
+                    <div class="reaction-section">
+                        <div class="reaction-title">⚠️ Je, kulikuwa na mzio leo?</div>
                         
-                        <li class="suspect-item">
-                            <div class="suspect-info">
-                                <span>🥛 Maziwa</span>
-                                <span class="confidence-badge confidence-medium">Uwezekano Wastani 60%</span>
-                                <small>Mara 3/6 kumekuwa na mzio</small>
+                        <div class="reaction-types">
+                            <label class="reaction-checkbox">
+                                <input type="checkbox" name="reaction" value="upele">
+                                <span>🔴 Upele/Vipele</span>
+                            </label>
+                            <label class="reaction-checkbox">
+                                <input type="checkbox" name="reaction" value="kuvimba">
+                                <span>😷 Kuvimba uso/midomo</span>
+                            </label>
+                            <label class="reaction-checkbox">
+                                <input type="checkbox" name="reaction" value="kutapika">
+                                <span>🤢 Kutapika</span>
+                            </label>
+                            <label class="reaction-checkbox">
+                                <input type="checkbox" name="reaction" value="kuhara">
+                                <span>💩 Kuhara</span>
+                            </label>
+                            <label class="reaction-checkbox">
+                                <input type="checkbox" name="reaction" value="kupumua">
+                                <span>😤 Shida ya kupumua</span>
+                            </label>
+                            <label class="reaction-checkbox">
+                                <input type="checkbox" name="reaction" value="ngozi">
+                                <span>🔥 Kuwashwa ngozi</span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label>Ukali wa mzio:</label>
+                            <div class="severity-buttons">
+                                <button class="severity-btn mild" onclick="setSeverity('mild')">
+                                    😊 Nyepesi
+                                </button>
+                                <button class="severity-btn moderate" onclick="setSeverity('moderate')">
+                                    😐 Wastani
+                                </button>
+                                <button class="severity-btn severe" onclick="setSeverity('severe')">
+                                    😨 Kali (Hospitali!)
+                                </button>
                             </div>
-                            <div class="action-buttons">
-                                <button class="action-btn">Ondoa Wiki 2</button>
-                                <button class="action-btn">Jaribu Tena</button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                        </div>
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">15</div>
-                        <div class="stat-label">Siku za Ufuatiliaji</div>
+                        <div style="margin-top: 15px;">
+                            <label>Muda baada ya kula:</label>
+                            <select id="reactionTime" style="width: 100%; padding: 10px; border-radius: 8px; border: 2px solid #e0e0e0;">
+                                <option value="">-- Chagua --</option>
+                                <option value="0-30">Dakika 0-30</option>
+                                <option value="30-60">Dakika 30-60</option>
+                                <option value="1-2h">Saa 1-2</option>
+                                <option value="2-4h">Saa 2-4</option>
+                                <option value="4h+">Saa 4+</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number">8</div>
-                        <div class="stat-label">Mzio Uliogunduliwa</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">3</div>
-                        <div class="stat-label">Vyakula Hatari</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">12</div>
-                        <div class="stat-label">Vyakula Salama</div>
+
+                    <button class="save-button" onclick="saveDayEntry()">💾 Hifadhi Rekodi ya Leo</button>
+                </div>
+            </div>
+
+            <!-- Tab: Analysis -->
+            <div id="analysis" class="tab-content">
+                <div class="section">
+                    <h2>🔍 Uchambuzi wa Mzio</h2>
+                    <div id="analysisContent" class="analysis-message">
+                        <p>Hakuna data ya kutosha kwa sasa. Endelea kurekodi chakula na mzio kwa siku zaidi.</p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Tab: Elimination Plan -->
-        <div id="plan" class="tab-content">
-            <div class="section">
-                <div class="elimination-plan">
-                    <div class="plan-title">📋 Mpango wa Kuondoa na Kurudisha Vyakula</div>
-                    
-                    <div class="alert-box danger">
-                        <strong>⚠️ Onyo:</strong> Kuku na Samaki zimesababisha mzio mkali mara ya mwisho. 
-                        Jaribu tena tu hospitalini!
+            <!-- Tab: Plan -->
+            <div id="plan" class="tab-content">
+                <div class="section">
+                    <h2>📋 Mpango wa Majaribio</h2>
+                    <div id="planContent" class="plan-message">
+                        <p>Mpango utatengenezwa baada ya kupata data ya kutosha ya uchambuzi.</p>
                     </div>
+                </div>
+            </div>
 
-                    <h3 style="margin: 20px 0 15px; color: #333;">Hatua ya Sasa: Kuondoa</h3>
-                    
-                    <div class="plan-item">
-                        <div class="plan-status active"></div>
-                        <div style="flex: 1;">
-                            <strong>🐔 Kuku - Wiki 1/2</strong><br>
-                            <small>Imeanza: 8 Nov 2024 | Itamalizika: 22 Nov 2024</small>
-                        </div>
-                        <button class="action-btn">Maliza Mapema</button>
-                    </div>
-
-                    <div class="plan-item">
-                        <div class="plan-status"></div>
-                        <div style="flex: 1;">
-                            <strong>🐟 Samaki - Hatujaanza</strong><br>
-                            <small>Itaanza baada ya kukamilisha kuku</small>
-                        </div>
-                        <button class="action-btn">Anza Sasa</button>
-                    </div>
-
-                    <h3 style="margin: 20px 0 15px; color: #333;">Hatua ya Kurudisha:</h3>
-                    
-                    <div class="plan-item">
-                        <div class="plan-status completed">✓</div>
-                        <div style="flex: 1;">
-                            <strong>🥚 Mayai - Imekamilika</strong><br>
-                            <small>Hakuna mzio! Sasa ni salama</small>
-                        </div>
-                    </div>
-
-                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-top: 20px;">
-                        <h4 style="color: #1976d2; margin-bottom: 10px;">💡 Jinsi ya Kurudisha Chakula:</h4>
-                        <ol style="margin-left: 20px; color: #555; line-height: 1.8;">
-                            <li>Siku ya 1: Kiasi kidogo sana (kijiko 1/4)</li>
-                            <li>Subiri siku 3 - fuatilia dalili</li>
-                            <li>Siku ya 4: Ongeza kiasi (kijiko 1/2)</li>
-                            <li>Siku ya 7: Kiasi cha kawaida</li>
-                            <li>🥛 Maziwa: Anza na yogurt → kisha kefir → mwisho maziwa fresh</li>
-                        </ol>
+            <!-- Tab: History -->
+            <div id="history" class="tab-content">
+                <div class="section">
+                    <h2>📊 Historia ya Mzio</h2>
+                    <div id="historyContent" class="analysis-message">
+                        <p>Historia itaonekana hapa baada ya kurekodi data.</p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Tab: History -->
-        <div id="history" class="tab-content">
-            <div class="section">
-                <h2>📊 Historia ya Mzio</h2>
-                <!-- Historia itaonyeshwa hapa -->
+    <!-- Modal for Adding Child -->
+    <div id="addChildModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">👶 Ongeza Mtoto Mpya</h2>
+            
+            <div class="form-group">
+                <label>Jina la Mtoto:</label>
+                <input type="text" id="newChildName" placeholder="Mfano: Sofia">
             </div>
-        </div>
-
-        <!-- Tab: Doctor Report -->
-        <div id="report" class="tab-content">
-            <div class="section">
-                <h2>🏥 Ripoti ya Daktari</h2>
-                <button class="save-button" onclick="generateReport()">📄 Tengeneza Ripoti PDF</button>
+            
+            <div class="form-group">
+                <label>Tarehe ya Kuzaliwa:</label>
+                <input type="date" id="newChildBirthdate">
+            </div>
+            
+            <div class="form-group">
+                <label>Mzio/Allergy zinazojulikana (ikiwa zipo):</label>
+                <input type="text" id="newChildAllergies" placeholder="Mfano: kuku, samaki, maziwa">
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="hideAddChildModal()">Ghairi</button>
+                <button class="btn-save" onclick="saveNewChild()">Hifadhi</button>
             </div>
         </div>
     </div>
 
     <script src="../js/core/database.js"></script>
+    <script src="../js/allergy-analyzer.js"></script>
     <script>
-        // Текущий выбранный прием пищи
+        // Global variables
+        let currentChild = null;
         let currentMeal = 'breakfast';
         let currentDate = new Date();
         let todaysFoods = [];
         let selectedSeverity = null;
+        let analyzer = new AllergyAnalyzer();
 
-        // Переключение вкладок
+        // Initialize on load
+        window.onload = function() {
+            loadChildren();
+            updateDateDisplay();
+        };
+
+        // Load children from database
+        function loadChildren() {
+            const data = window.familyDB.getData();
+            const select = document.getElementById('childSelect');
+            
+            // Clear existing options
+            select.innerHTML = '<option value="">-- Chagua Mtoto --</option>';
+            
+            // Add children if they exist
+            if (data.children && data.children.length > 0) {
+                data.children.forEach(child => {
+                    const option = document.createElement('option');
+                    option.value = child.id;
+                    option.textContent = child.name;
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        // Load data for selected child
+        function loadChildData() {
+            const childId = document.getElementById('childSelect').value;
+            
+            if (!childId) {
+                currentChild = null;
+                document.getElementById('childInfo').style.display = 'none';
+                document.getElementById('noChildMessage').style.display = 'block';
+                document.getElementById('mainContent').style.display = 'none';
+                return;
+            }
+            
+            // Get child data
+            const data = window.familyDB.getData();
+            currentChild = data.children.find(c => c.id === childId);
+            
+            if (currentChild) {
+                // Show child info
+                document.getElementById('childName').textContent = currentChild.name;
+                document.getElementById('childAge').textContent = calculateAge(currentChild.birthdate);
+                
+                if (currentChild.knownAllergies && currentChild.knownAllergies.length > 0) {
+                    document.getElementById('knownAllergies').textContent = currentChild.knownAllergies.join(', ');
+                    document.getElementById('knownAllergiesSpan').style.display = 'inline';
+                } else {
+                    document.getElementById('knownAllergiesSpan').style.display = 'none';
+                }
+                
+                document.getElementById('childInfo').style.display = 'flex';
+                document.getElementById('noChildMessage').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                
+                // Load today's data
+                loadDayData();
+                
+                // Load analysis
+                runAnalysis();
+            }
+        }
+
+        // Calculate age from birthdate
+        function calculateAge(birthdate) {
+            const birth = new Date(birthdate);
+            const today = new Date();
+            const months = (today.getFullYear() - birth.getFullYear()) * 12 + 
+                          (today.getMonth() - birth.getMonth());
+            
+            if (months < 12) {
+                return `Miezi ${months}`;
+            } else {
+                const years = Math.floor(months / 12);
+                const remainingMonths = months % 12;
+                if (remainingMonths > 0) {
+                    return `Miaka ${years} na miezi ${remainingMonths}`;
+                }
+                return `Miaka ${years}`;
+            }
+        }
+
+        // Show add child modal
+        function showAddChildModal() {
+            document.getElementById('addChildModal').classList.add('show');
+        }
+
+        // Hide add child modal
+        function hideAddChildModal() {
+            document.getElementById('addChildModal').classList.remove('show');
+            // Clear form
+            document.getElementById('newChildName').value = '';
+            document.getElementById('newChildBirthdate').value = '';
+            document.getElementById('newChildAllergies').value = '';
+        }
+
+        // Save new child
+        function saveNewChild() {
+            const name = document.getElementById('newChildName').value.trim();
+            const birthdate = document.getElementById('newChildBirthdate').value;
+            const allergiesText = document.getElementById('newChildAllergies').value.trim();
+            
+            if (!name || !birthdate) {
+                alert('Tafadhali jaza jina na tarehe ya kuzaliwa!');
+                return;
+            }
+            
+            const child = {
+                id: 'child_' + Date.now(),
+                name: name,
+                birthdate: birthdate,
+                knownAllergies: allergiesText ? allergiesText.split(',').map(a => a.trim()) : [],
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save to database
+            const data = window.familyDB.getData();
+            if (!data.children) data.children = [];
+            data.children.push(child);
+            window.familyDB.saveData(data);
+            
+            // Reload children list
+            loadChildren();
+            
+            // Select the new child
+            document.getElementById('childSelect').value = child.id;
+            loadChildData();
+            
+            // Close modal
+            hideAddChildModal();
+            
+            alert('Mtoto ameongezwa!');
+        }
+
+        // Switch tab
         function switchTab(tabName) {
-            // Скрыть все вкладки
+            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
             
-            // Убрать активный класс со всех табов
+            // Remove active from all tabs
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Показать выбранную вкладку
+            // Show selected tab
             document.getElementById(tabName).classList.add('active');
             
-            // Активировать таб
+            // Mark tab as active
             event.target.classList.add('active');
         }
 
-        // Выбор приема пищи
-        document.querySelectorAll('.meal-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.meal-btn').forEach(b => b.classList.remove('selected'));
-                this.classList.add('selected');
-                currentMeal = this.dataset.meal;
+        // Select meal
+        function selectMeal(meal) {
+            currentMeal = meal;
+            document.querySelectorAll('.meal-btn').forEach(btn => {
+                btn.classList.remove('selected');
             });
-        });
+            document.querySelector(`[data-meal="${meal}"]`).classList.add('selected');
+        }
 
-        // Добавить еду
+        // Add food
         function addFood() {
             const input = document.getElementById('foodInput');
             const foodName = input.value.trim();
@@ -748,18 +809,25 @@
             renderFoods();
         }
 
-        // Отобразить список еды
+        // Render foods list
         function renderFoods() {
             const container = document.getElementById('todayFoods');
             container.innerHTML = '';
+            
+            if (todaysFoods.length === 0) {
+                return;
+            }
             
             todaysFoods.forEach((food, index) => {
                 const tag = document.createElement('div');
                 tag.className = 'food-tag';
                 
-                // Проверить если еда в списке подозрительных
-                if (['kuku', 'samaki'].some(a => food.name.toLowerCase().includes(a))) {
-                    tag.classList.add('suspicious');
+                // Check if food is in known allergens
+                if (currentChild && currentChild.knownAllergies) {
+                    if (currentChild.knownAllergies.some(a => 
+                        food.name.toLowerCase().includes(a.toLowerCase()))) {
+                        tag.classList.add('confirmed-allergen');
+                    }
                 }
                 
                 tag.innerHTML = `
@@ -771,7 +839,7 @@
             });
         }
 
-        // Получить иконку приема пищи
+        // Get meal icon
         function getMealIcon(meal) {
             const icons = {
                 breakfast: '🌅',
@@ -782,29 +850,29 @@
             return icons[meal] || '🍽️';
         }
 
-        // Удалить еду
+        // Remove food
         function removeFood(index) {
             todaysFoods.splice(index, 1);
             renderFoods();
         }
 
-        // Установить степень реакции
+        // Set severity
         function setSeverity(level) {
             selectedSeverity = level;
             document.querySelectorAll('.severity-btn').forEach(btn => {
-                btn.classList.remove('selected');
+                btn.classList.remove('selected', 'mild', 'moderate', 'severe');
             });
-            event.target.classList.add('selected');
+            event.target.classList.add('selected', level);
         }
 
-        // Изменить дату
+        // Change date
         function changeDate(days) {
             currentDate.setDate(currentDate.getDate() + days);
             updateDateDisplay();
             loadDayData();
         }
 
-        // Обновить отображение даты
+        // Update date display
         function updateDateDisplay() {
             const dateEl = document.getElementById('currentDate');
             const today = new Date();
@@ -816,76 +884,271 @@
             }
         }
 
-        // Сохранить запись дня
+        // Load day data
+        function loadDayData() {
+            if (!currentChild) return;
+            
+            // Clear current data
+            todaysFoods = [];
+            selectedSeverity = null;
+            renderFoods();
+            
+            // Reset form
+            document.querySelectorAll('input[name="reaction"]').forEach(cb => {
+                cb.checked = false;
+            });
+            document.querySelectorAll('.severity-btn').forEach(btn => {
+                btn.classList.remove('selected', 'mild', 'moderate', 'severe');
+            });
+            document.getElementById('reactionTime').value = '';
+            
+            // Load data for this date if exists
+            const dateStr = currentDate.toISOString().split('T')[0];
+            const diaries = window.familyDB.getFoodDiaries(currentChild.id);
+            const todayEntry = diaries.find(d => d.date === dateStr);
+            
+            if (todayEntry) {
+                todaysFoods = todayEntry.foods || [];
+                renderFoods();
+                
+                // Load reactions if any
+                if (todayEntry.reactions && todayEntry.reactions.length > 0) {
+                    todayEntry.reactions.forEach(reaction => {
+                        const checkbox = document.querySelector(`input[value="${reaction}"]`);
+                        if (checkbox) checkbox.checked = true;
+                    });
+                    
+                    if (todayEntry.severity) {
+                        selectedSeverity = todayEntry.severity;
+                        const btn = document.querySelector(`.severity-btn.${todayEntry.severity}`);
+                        if (btn) btn.classList.add('selected', todayEntry.severity);
+                    }
+                    
+                    if (todayEntry.timeAfterEating) {
+                        document.getElementById('reactionTime').value = todayEntry.timeAfterEating;
+                    }
+                }
+            }
+        }
+
+        // Save day entry
         function saveDayEntry() {
+            if (!currentChild) {
+                alert('Tafadhali chagua mtoto kwanza!');
+                return;
+            }
+            
+            if (todaysFoods.length === 0) {
+                alert('Tafadhali ongeza angalau chakula kimoja!');
+                return;
+            }
+            
             const reactions = [];
             document.querySelectorAll('input[name="reaction"]:checked').forEach(cb => {
                 reactions.push(cb.value);
             });
             
             const dayData = {
-                date: currentDate.toISOString(),
+                childId: currentChild.id,
+                date: currentDate.toISOString().split('T')[0],
                 foods: todaysFoods,
                 reactions: reactions,
                 severity: selectedSeverity,
-                timeAfterEating: document.querySelector('select').value
+                timeAfterEating: document.getElementById('reactionTime').value,
+                timestamp: new Date().toISOString()
             };
             
-            // Сохранить в базу данных
-            console.log('Saving day data:', dayData);
-            
-            // Анализировать паттерны
-            analyzePatterns(dayData);
+            // Save to database
+            window.familyDB.addFoodDiary(dayData);
             
             alert('Rekodi ya leo imehifadhiwa!');
+            
+            // Run analysis after saving
+            runAnalysis();
         }
 
-        // Анализ паттернов аллергий
-        function analyzePatterns(dayData) {
-            // Простой алгоритм для поиска паттернов
-            // В реальном приложении это будет более сложно
+        // Run analysis
+        function runAnalysis() {
+            if (!currentChild) return;
             
-            if (dayData.reactions.length > 0) {
-                // Найти общие продукты в дни с реакциями
-                console.log('Analyzing patterns for reactions:', dayData.reactions);
-                console.log('Foods eaten:', dayData.foods);
+            // Get last 30 days of data
+            const diaries = window.familyDB.getFoodDiaries(currentChild.id, 30);
+            
+            if (diaries.length < 3) {
+                document.getElementById('analysisContent').innerHTML = `
+                    <div class="analysis-message">
+                        <p>Unahitaji angalau rekodi za siku 3 ili kupata uchambuzi.</p>
+                        <p>Umerekodiwa siku ${diaries.length} mpaka sasa.</p>
+                    </div>
+                `;
+                return;
             }
+            
+            // Run analysis
+            const results = analyzer.analyzeAllergies(diaries);
+            
+            // Display analysis results
+            displayAnalysisResults(results);
+            
+            // Create elimination plan if we have suspicious foods
+            if (results.suspicious.length > 0) {
+                const plan = analyzer.createEliminationPlan(results.suspicious);
+                displayEliminationPlan(plan);
+            }
+            
+            // Display history
+            displayHistory(diaries);
         }
 
-      // Загрузить данные дня
-        function loadDayData() {
-            // Загрузить данные из базы для выбранной даты
-            todaysFoods = [];
-            renderFoods();
+        // Display analysis results
+        function displayAnalysisResults(results) {
+            const container = document.getElementById('analysisContent');
             
-            // Сбросить выбор реакций
-            document.querySelectorAll('input[name="reaction"]').forEach(cb => {
-                cb.checked = false;
+            if (results.suspicious.length === 0) {
+                container.innerHTML = `
+                    <div class="analysis-message">
+                        <h3>✅ Hakuna vyakula vinavyoshukiwa kwa sasa</h3>
+                        <p>Endelea kurekodi ili kupata uchambuzi mzuri zaidi.</p>
+                        <p>Siku zilizorekodiwa: ${results.totalDaysCount}</p>
+                        <p>Siku zenye mzio: ${results.reactionDaysCount}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = `
+                <h3>🔍 Vyakula Vinavyoshukiwa Kusababisha Mzio:</h3>
+                <ul class="suspect-list">
+            `;
+            
+            results.suspicious.forEach(item => {
+                const confidenceClass = item.confidence >= 80 ? 'confidence-high' : 
+                                       item.confidence >= 60 ? 'confidence-medium' : 
+                                       'confidence-low';
+                
+                html += `
+                    <li class="suspect-item">
+                        <div class="suspect-info">
+                            <span style="font-weight: bold;">${item.food}</span>
+                            <span class="confidence-badge ${confidenceClass}">
+                                Uwezekano ${item.confidence}%
+                            </span>
+                            <small>Mzio mara ${item.reactionCount}/${item.totalCount}</small>
+                        </div>
+                    </li>
+                `;
             });
             
-            selectedSeverity = null;
-            document.querySelectorAll('.severity-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-        }
-
-        // Генерировать отчет для врача
-        function generateReport() {
-            alert('Ripoti ya daktari itatengenezwa...\n(Hii ni kwa majaribio)');
+            html += `</ul>`;
             
-            // В реальном приложении здесь будет генерация PDF
-            // с историей реакций, подозрительными продуктами и планом
+            if (results.safe.length > 0) {
+                html += `
+                    <h3 style="margin-top: 30px; color: #4caf50;">✅ Vyakula Salama:</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                `;
+                
+                results.safe.forEach(food => {
+                    html += `<span class="food-tag safe">${food}</span>`;
+                });
+                
+                html += `</div>`;
+            }
+            
+            container.innerHTML = html;
         }
 
-        // Enter на поле ввода добавляет еду
+        // Display elimination plan
+        function displayEliminationPlan(plan) {
+            const container = document.getElementById('planContent');
+            
+            let html = `
+                <h3>📋 Mpango wa Kuondoa na Kurudisha Vyakula:</h3>
+            `;
+            
+            plan.forEach(item => {
+                const startDate = new Date(item.startDate).toLocaleDateString('sw-TZ');
+                const endDate = new Date(item.endDate).toLocaleDateString('sw-TZ');
+                
+                html += `
+                    <div class="plan-item" style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                        <h4 style="color: #333; margin-bottom: 10px;">${item.food}</h4>
+                        <p><strong>Ondoa kutoka:</strong> ${startDate} <strong>mpaka:</strong> ${endDate}</p>
+                `;
+                
+                if (item.reintroductionProtocol) {
+                    html += `
+                        <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 8px;">
+                            <strong>Jinsi ya kurudisha:</strong>
+                            <p>📍 Mahali: ${item.reintroductionProtocol.location}</p>
+                            <ol style="margin-top: 10px; margin-left: 20px;">
+                    `;
+                    
+                    item.reintroductionProtocol.steps.forEach(step => {
+                        html += `
+                            <li>Siku ${step.day}: ${step.amount} - Subiri ${step.wait}</li>
+                        `;
+                    });
+                    
+                    html += `</ol></div>`;
+                }
+                
+                html += `</div>`;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Display history
+        function displayHistory(diaries) {
+            const container = document.getElementById('historyContent');
+            
+            if (diaries.length === 0) {
+                container.innerHTML = `
+                    <div class="analysis-message">
+                        <p>Hakuna historia bado.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = `
+                <div style="max-height: 400px; overflow-y: auto;">
+            `;
+            
+            diaries.forEach(entry => {
+                const date = new Date(entry.date).toLocaleDateString('sw-TZ');
+                const hasReaction = entry.reactions && entry.reactions.length > 0;
+                
+                html += `
+                    <div style="background: ${hasReaction ? '#ffebee' : '#e8f5e8'}; 
+                                padding: 15px; margin: 10px 0; border-radius: 10px;
+                                border-left: 4px solid ${hasReaction ? '#f44336' : '#4caf50'};">
+                        <h4>${date}</h4>
+                        <p><strong>Vyakula:</strong> ${entry.foods.map(f => f.name).join(', ')}</p>
+                `;
+                
+                if (hasReaction) {
+                    html += `
+                        <p><strong>Mzio:</strong> ${entry.reactions.join(', ')}</p>
+                        ${entry.severity ? `<p><strong>Ukali:</strong> ${entry.severity}</p>` : ''}
+                    `;
+                }
+                
+                html += `</div>`;
+            });
+            
+            html += `</div>`;
+            
+            container.innerHTML = html;
+        }
+
+        // Enter key adds food
         document.getElementById('foodInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 addFood();
             }
         });
-
-        // Инициализация при загрузке
-        updateDateDisplay();
     </script>
 </body>
 </html>
+                    
