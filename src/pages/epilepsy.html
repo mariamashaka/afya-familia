@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="sw">
 <head>
     <meta charset="UTF-8">
@@ -146,6 +146,13 @@
             margin-left: 10px;
         }
         
+        .btn-danger {
+            background: #d32f2f;
+            color: white;
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+        
         .btn:hover {
             opacity: 0.9;
         }
@@ -161,6 +168,7 @@
             margin-bottom: 10px;
             border-radius: 8px;
             border-left: 4px solid #d32f2f;
+            position: relative;
         }
         
         .seizure-date {
@@ -172,23 +180,120 @@
         .seizure-details {
             font-size: 14px;
             color: #666;
+            line-height: 1.6;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
         }
         
         /* BASIC THERAPY SECTION */
         .therapy-section {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         
         .therapy-section h3 {
             color: #2196F3;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
         .medication-item {
             background: #f9f9f9;
-            padding: 12px;
+            padding: 15px;
             margin-bottom: 10px;
             border-radius: 6px;
+            border-left: 4px solid #4CAF50;
+            position: relative;
+        }
+        
+        .med-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .med-details {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .development-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #FF9800;
+        }
+        
+        .dev-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .dev-row:last-child {
+            border-bottom: none;
+        }
+        
+        .dev-label {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .dev-value {
+            color: #333;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        
+        /* MODAL for medication form */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
         }
     </style>
 </head>
@@ -210,8 +315,8 @@
             </div>
             
             <div class="form-group">
-                <label>Muda wa kudumu (dakika/sekunde):</label>
-                <input type="text" id="seizureDuration" placeholder="Mfano: 2 dakika, 30 sekunde">
+                <label>Muda wa kudumu:</label>
+                <input type="text" id="seizureDuration" placeholder="Mfano: 2 dakika, 30 sekunde" required>
             </div>
             
             <div class="form-group">
@@ -327,39 +432,161 @@
         <div class="therapy-section">
             <h3>Dawa za Kawaida (Basic Therapy)</h3>
             <div id="medicationList">
-                <p style="color: #999;">Bonyeza "Ongeza Dawa" kuanza...</p>
+                <div class="loading">Inapakia...</div>
             </div>
-            <button class="btn btn-primary" onclick="addMedication()">+ Ongeza Dawa</button>
+            <button class="btn btn-primary" onclick="openMedicationModal()">+ Ongeza Dawa</button>
         </div>
         
         <div class="therapy-section">
             <h3>Uwezo wa Mtoto (Development)</h3>
             <div id="developmentInfo">
-                <p style="color: #999;">Bonyeza "Rekodi Uwezo" kuanza...</p>
+                <div class="loading">Inapakia...</div>
             </div>
-            <button class="btn btn-primary" onclick="recordDevelopment()">Rekodi Uwezo</button>
+            <button class="btn btn-primary" onclick="openDevelopmentModal()">Rekodi Uwezo</button>
         </div>
     </div>
 
     <!-- TAB CONTENT: HISTORY -->
     <div class="tab-content" id="history">
         <h3>Historia ya Mishtuko</h3>
-        <button class="btn btn-primary" onclick="generateReport()">📄 Toa Ripoti kwa Daktari</button>
+        <button class="btn btn-primary" onclick="generateReport()" style="margin-bottom: 20px;">📄 Toa Ripoti kwa Daktari</button>
         
         <ul class="seizure-list" id="seizureList">
-            <li class="seizure-item">
-                <div class="seizure-date">26/06/2025 - Saa 11:00 jioni</div>
-                <div class="seizure-details">
-                    Muda: 30-40 sekunde | Mikono, miguu, uso | Alisinzia baadaye
-                </div>
-            </li>
+            <div class="loading">Inapakia...</div>
         </ul>
     </div>
 
+    <!-- MEDICATION MODAL -->
+    <div class="modal" id="medicationModal">
+        <div class="modal-content">
+            <div class="modal-header">Ongeza Dawa Mpya</div>
+            <form id="medicationForm">
+                <div class="form-group">
+                    <label>Jina la Dawa:</label>
+                    <input type="text" id="medName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Uzito wa Mtoto (kg):</label>
+                    <input type="number" id="childWeight" step="0.1">
+                </div>
+                
+                <div class="form-group">
+                    <label>Asubuhi:</label>
+                    <input type="text" id="dosageAsubuhi" placeholder="Mfano: 150mg">
+                </div>
+                
+                <div class="form-group">
+                    <label>Mchana:</label>
+                    <input type="text" id="dosageMchana" placeholder="Mfano: 150mg">
+                </div>
+                
+                <div class="form-group">
+                    <label>Jioni:</label>
+                    <input type="text" id="dosageJioni" placeholder="Mfano: 150mg">
+                </div>
+                
+                <div class="form-group">
+                    <label>Usiku:</label>
+                    <input type="text" id="dosageUsiku" placeholder="Mfano: 30mg">
+                </div>
+                
+                <div class="form-group">
+                    <label>Picha ya Dawa (optional):</label>
+                    <input type="file" id="medPhoto" accept="image/*">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Hifadhi</button>
+                <button type="button" class="btn btn-secondary" onclick="closeMedicationModal()">Ghairi</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DEVELOPMENT MODAL -->
+    <div class="modal" id="developmentModal">
+        <div class="modal-content">
+            <div class="modal-header">Rekodi Uwezo wa Mtoto</div>
+            <form id="developmentForm">
+                <div class="form-group">
+                    <label>Anaongea vizuri?</label>
+                    <select id="devSpeech" required>
+                        <option value="">Chagua...</option>
+                        <option value="ndiyo">Ndiyo</option>
+                        <option value="hapana">Hapana</option>
+                        <option value="kidogo">Kidogo</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Anacheza na watoto wengine?</label>
+                    <select id="devSocial" required>
+                        <option value="">Chagua...</option>
+                        <option value="ndiyo">Ndiyo</option>
+                        <option value="hapana">Hapana</option>
+                        <option value="kidogo">Kidogo</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Anawafahamu wazazi?</label>
+                    <select id="devRecognize" required>
+                        <option value="">Chagua...</option>
+                        <option value="ndiyo">Ndiyo</option>
+                        <option value="hapana">Hapana</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Shule - Anafanya vipi?</label>
+                    <textarea id="devSchool" placeholder="Eleza jinsi anavyofanya shuleni..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Kukojoa/Kinyesi - Ana control?</label>
+                    <select id="devControl" required>
+                        <option value="">Chagua...</option>
+                        <option value="ndiyo">Ndiyo</option>
+                        <option value="hapana">Hapana</option>
+                        <option value="kidogo">Mara nyingine</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Maelezo mengine:</label>
+                    <textarea id="devNotes" placeholder="Taarifa nyingine..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Hifadhi</button>
+                <button type="button" class="btn btn-secondary" onclick="closeDevelopmentModal()">Ghairi</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- INCLUDE EPILEPSY MANAGER -->
+    <script src="../js/core/epilepsy-manager.js"></script>
+    
     <script>
-        // Tab switching
+        // Initialize on page load
+        let manager;
+        
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                manager = new EpilepsyManager();
+                await manager.init();
+                console.log('Database initialized successfully');
+                
+                // Load all data
+                await loadMedications();
+                await loadDevelopment();
+                await loadSeizures();
+            } catch (error) {
+                console.error('Error initializing database:', error);
+                alert('Kuna tatizo la kuanzisha database. Tafadhali reload page.');
+            }
+        });
+        
+        // ============ TAB SWITCHING ============
         function showTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -367,42 +594,354 @@
                 btn.classList.remove('active');
             });
             
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
         
-        // Seizure form
+        // ============ SEIZURE FORM ============
         function openSeizureForm() {
             document.getElementById('seizureForm').classList.add('active');
-            // Set current date/time
             const now = new Date();
             const datetime = now.toISOString().slice(0, 16);
             document.getElementById('seizureDateTime').value = datetime;
+            window.scrollTo(0, 0);
         }
         
         function closeSeizureForm() {
             document.getElementById('seizureForm').classList.remove('active');
+            document.getElementById('seizureEntryForm').reset();
         }
         
-        // Form submission (placeholder)
-        document.getElementById('seizureEntryForm').addEventListener('submit', function(e) {
+        // Handle seizure form submission
+        document.getElementById('seizureEntryForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            alert('Seizure data saved! (Database integration coming next)');
-            closeSeizureForm();
+            
+            try {
+                // Collect checkbox values
+                const onsetChecks = Array.from(document.querySelectorAll('input[name="onset"]:checked'))
+                    .map(cb => cb.value);
+                const bodyPartsChecks = Array.from(document.querySelectorAll('input[name="bodyParts"]:checked'))
+                    .map(cb => cb.value);
+                const triggersChecks = Array.from(document.querySelectorAll('input[name="triggers"]:checked'))
+                    .map(cb => cb.value);
+                const afterSeizureChecks = Array.from(document.querySelectorAll('input[name="afterSeizure"]:checked'))
+                    .map(cb => cb.value);
+                
+                // Handle video file
+                const videoFile = document.getElementById('videoUpload').files[0];
+                let videoData = null;
+                if (videoFile) {
+                    videoData = await fileToBase64(videoFile);
+                }
+                
+                const seizureData = {
+                    dateTime: document.getElementById('seizureDateTime').value,
+                    duration: document.getElementById('seizureDuration').value,
+                    beforeSeizure: document.getElementById('beforeSeizure').value,
+                    aura: document.getElementById('aura').value,
+                    onset: onsetChecks,
+                    onsetOther: document.getElementById('onsetOther').value,
+                    bodyParts: bodyPartsChecks,
+                    bodyPartsDetails: document.getElementById('bodyPartsDetails').value,
+                    lostConsciousness: document.getElementById('lostConsciousness').value,
+                    triggers: triggersChecks,
+                    triggersOther: document.getElementById('triggersOther').value,
+                    afterSeizure: afterSeizureChecks,
+                    afterSeizureDetails: document.getElementById('afterSeizureDetails').value,
+                    emergencyMeds: document.getElementById('emergencyMeds').value,
+                    location: document.getElementById('location').value,
+                    tookMeds: document.getElementById('tookMeds').value,
+                    video: videoData,
+                    additionalNotes: document.getElementById('additionalNotes').value
+                };
+                
+                await manager.saveSeizure(seizureData);
+                alert('✅ Taarifa imehifadhiwa!');
+                closeSeizureForm();
+                await loadSeizures();
+            } catch (error) {
+                console.error('Error saving seizure:', error);
+                alert('❌ Kuna tatizo la kuhifadhi taarifa. Jaribu tena.');
+            }
         });
         
-        // Placeholder functions
-        function addMedication() {
-            alert('Add medication form coming next!');
+        // ============ LOAD SEIZURES ============
+        async function loadSeizures() {
+            try {
+                const seizures = await manager.getAllSeizures();
+                const listElement = document.getElementById('seizureList');
+                
+                if (seizures.length === 0) {
+                    listElement.innerHTML = '<div class="empty-state">Hakuna taarifa za mishtuko bado</div>';
+                    return;
+                }
+                
+                listElement.innerHTML = seizures.map(seizure => {
+                    const date = new Date(seizure.dateTime);
+                    const formattedDate = date.toLocaleDateString('sw-TZ', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    const formattedTime = date.toLocaleTimeString('sw-TZ', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    return `
+                        <li class="seizure-item">
+                            <button class="btn btn-danger delete-btn" onclick="deleteSeizure(${seizure.id})">🗑️</button>
+                            <div class="seizure-date">${formattedDate} - ${formattedTime}</div>
+                            <div class="seizure-details">
+                                <strong>Muda:</strong> ${seizure.duration}<br>
+                                ${seizure.bodyParts.length > 0 ? `<strong>Mwili:</strong> ${seizure.bodyParts.join(', ')}<br>` : ''}
+                                ${seizure.triggers.length > 0 ? `<strong>Triggers:</strong> ${seizure.triggers.join(', ')}<br>` : ''}
+                                ${seizure.afterSeizure.length > 0 ? `<strong>Baada:</strong> ${seizure.afterSeizure.join(', ')}<br>` : ''}
+                                ${seizure.emergencyMeds ? `<strong>Dawa ya dharura:</strong> ${seizure.emergencyMeds}<br>` : ''}
+                                <strong>Dawa za kawaida:</strong> ${seizure.tookMeds === 'ndiyo' ? 'Ndiyo ✓' : 'Hapana ✗'}
+                            </div>
+                        </li>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading seizures:', error);
+            }
         }
         
-        function recordDevelopment() {
-            alert('Development recording form coming next!');
+        async function deleteSeizure(id) {
+            if (confirm('Una uhakika unataka kufuta taarifa hii?')) {
+                try {
+                    await manager.deleteSeizure(id);
+                    await loadSeizures();
+                    alert('✅ Taarifa imefutwa!');
+                } catch (error) {
+                    console.error('Error deleting seizure:', error);
+                    alert('❌ Kuna tatizo la kufuta taarifa.');
+                }
+            }
         }
         
-        function generateReport() {
-            alert('Report generation coming next!');
+        // ============ MEDICATION MODAL ============
+        function openMedicationModal() {
+            document.getElementById('medicationModal').classList.add('active');
+        }
+        
+        function closeMedicationModal() {
+            document.getElementById('medicationModal').classList.remove('active');
+            document.getElementById('medicationForm').reset();
+        }
+        
+        document.getElementById('medicationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                const photoFile = document.getElementById('medPhoto').files[0];
+                let photoData = null;
+                if (photoFile) {
+                    photoData = await fileToBase64(photoFile);
+                }
+                
+                const medData = {
+                    medicationName: document.getElementById('medName').value,
+                    childWeight: document.getElementById('childWeight').value,
+                    timing: {
+                        asubuhi: document.getElementById('dosageAsubuhi').value,
+                        mchana: document.getElementById('dosageMchana').value,
+                        jioni: document.getElementById('dosageJioni').value,
+                        usiku: document.getElementById('dosageUsiku').value
+                    },
+                    photo: photoData
+                };
+                
+                await manager.saveMedication(medData);
+                alert('✅ Dawa imehifadhiwa!');
+                closeMedicationModal();
+                await loadMedications();
+            } catch (error) {
+                console.error('Error saving medication:', error);
+                alert('❌ Kuna tatizo la kuhifadhi dawa.');
+            }
+        });
+        
+        // ============ LOAD MEDICATIONS ============
+        async function loadMedications() {
+            try {
+                const medications = await manager.getAllMedications();
+                const listElement = document.getElementById('medicationList');
+                
+                if (medications.length === 0) {
+                    listElement.innerHTML = '<div class="empty-state">Hakuna dawa zilizohifadhiwa bado</div>';
+                    return;
+                }
+                
+                listElement.innerHTML = medications.map(med => {
+                    const timingText = Object.entries(med.timing)
+                        .filter(([time, dose]) => dose)
+                        .map(([time, dose]) => `${time}: ${dose}`)
+                        .join(', ');
+                    
+                    return `
+                        <div class="medication-item">
+                            <button class="btn btn-danger delete-btn" onclick="deactivateMedication(${med.id})">🗑️</button>
+                            <div class="med-name">${med.medicationName}</div>
+                            <div class="med-details">
+                                ${med.childWeight ? `<strong>Uzito:</strong> ${med.childWeight}kg<br>` : ''}
+                                <strong>Muda:</strong> ${timingText}<br>
+                                <small>Imeongezwa: ${new Date(med.createdAt).toLocaleDateString('sw-TZ')}</small>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading medications:', error);
+            }
+        }
+        
+        async function deactivateMedication(id) {
+            if (confirm('Una uhakika unataka kuondoa dawa hii?')) {
+                try {
+                    await manager.deactivateMedication(id, 'Imeondolwa na mtumiaji');
+                    await loadMedications();
+                    alert('✅ Dawa imeondolewa!');
+                } catch (error) {
+                    console.error('Error deactivating medication:', error);
+                    alert('❌ Kuna tatizo la kuondoa dawa.');
+                }
+            }
+        }
+        
+        // ============ DEVELOPMENT MODAL ============
+        function openDevelopmentModal() {
+            document.getElementById('developmentModal').classList.add('active');
+        }
+        
+        function closeDevelopmentModal() {
+            document.getElementById('developmentModal').classList.remove('active');
+            document.getElementById('developmentForm').reset();
+        }
+        
+        document.getElementById('developmentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                const devData = {
+                    speech: document.getElementById('devSpeech').value,
+                    socialInteraction: document.getElementById('devSocial').value,
+                    recognizesParents: document.getElementById('devRecognize').value,
+                    schoolPerformance: document.getElementById('devSchool').value,
+                    bladderControl: document.getElementById('devControl').value,
+                    bowelControl: document.getElementById('devControl').value,
+                    notes: document.getElementById('devNotes').value
+                };
+                
+                await manager.saveDevelopment(devData);
+                alert('✅ Taarifa za uwezo zimehifadhiwa!');
+                closeDevelopmentModal();
+                await loadDevelopment();
+            } catch (error) {
+                console.error('Error saving development:', error);
+                alert('❌ Kuna tatizo la kuhifadhi taarifa.');
+            }
+        });
+        
+        // ============ LOAD DEVELOPMENT ============
+        async function loadDevelopment() {
+            try {
+                const dev = await manager.getLatestDevelopment();
+                const element = document.getElementById('developmentInfo');
+                
+                if (!dev) {
+                    element.innerHTML = '<div class="empty-state">Hakuna taarifa za uwezo bado</div>';
+                    return;
+                }
+                
+                const date = new Date(dev.recordDate).toLocaleDateString('sw-TZ');
+                
+                element.innerHTML = `
+                    <div class="development-item">
+                        <div class="dev-row">
+                            <span class="dev-label">Anaongea vizuri?</span>
+                            <span class="dev-value">${dev.speech}</span>
+                        </div>
+                        <div class="dev-row">
+                            <span class="dev-label">Anacheza na watoto?</span>
+                            <span class="dev-value">${dev.socialInteraction}</span>
+                        </div>
+                        <div class="dev-row">
+                            <span class="dev-label">Anawafahamu wazazi?</span>
+                            <span class="dev-value">${dev.recognizesParents}</span>
+                        </div>
+                        <div class="dev-row">
+                            <span class="dev-label">Control ya kukojoa/kinyesi?</span>
+                            <span class="dev-value">${dev.bladderControl}</span>
+                        </div>
+                        ${dev.schoolPerformance ? `
+                        <div class="dev-row">
+                            <span class="dev-label">Shule:</span>
+                            <span class="dev-value">${dev.schoolPerformance}</span>
+                        </div>
+                        ` : ''}
+                        <div style="margin-top: 10px; font-size: 12px; color: #999;">
+                            Imerekodi: ${date}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading development:', error);
+            }
+        }
+        
+        // ============ REPORT GENERATION ============
+        async function generateReport() {
+            try {
+                const report = await manager.generateReport();
+                
+                // Create simple text report
+                let reportText = '=== RIPOTI YA KIFAFA ===\n\n';
+                reportText += `Tarehe: ${new Date().toLocaleDateString('sw-TZ')}\n\n`;
+                reportText += `--- MISHTUKO ---\n`;
+                reportText += `Jumla: ${report.summary.totalSeizures}\n`;
+                reportText += `Wastani kwa wiki: ${report.summary.averagePerWeek}\n\n`;
+                
+                if (report.summary.commonTriggers.length > 0) {
+                    reportText += `Triggers za kawaida:\n`;
+                    report.summary.commonTriggers.forEach(([trigger, count]) => {
+                        reportText += `- ${trigger}: ${count} mara\n`;
+                    });
+                    reportText += '\n';
+                }
+                
+                reportText += `--- DAWA ---\n`;
+                report.medications.forEach(med => {
+                    reportText += `${med.medicationName}\n`;
+                    Object.entries(med.timing).forEach(([time, dose]) => {
+                        if (dose) reportText += `  ${time}: ${dose}\n`;
+                    });
+                });
+                
+                // Download as text file
+                const blob = new Blob([reportText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ripoti-kifafa-${new Date().toISOString().slice(0,10)}.txt`;
+                a.click();
+                
+                alert('✅ Ripoti imetengenezwa!');
+            } catch (error) {
+                console.error('Error generating report:', error);
+                alert('❌ Kuna tatizo la kutengeneza ripoti.');
+            }
+        }
+        
+        // ============ UTILITY FUNCTIONS ============
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
         }
     </script>
 
