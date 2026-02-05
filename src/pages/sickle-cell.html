@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ufuatiliaji wa Sickle Cell Disease</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 25px;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .patient-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .patient-selector select {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            font-size: 1rem;
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #666;
+            font-size: 1.1rem;
+            margin-top: 15px;
+        }
+
+        /* Red Flags Alert */
+        .red-flags-alert {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .red-flags-alert.active {
+            display: block;
+        }
+
+        .red-flags-alert.danger {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .red-flags-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .danger .red-flags-title {
+            color: #c62828;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Section Cards */
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .section h3 {
+            color: #555;
+            margin: 20px 0 10px 0;
+            font-size: 1.2rem;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #9e9e9e;
+            color: white;
+        }
+
+        /* Red Flags Checklist */
+        .red-flags-checklist {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .checkbox-item:hover {
+            border-color: #667eea;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-item.checked {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .checkbox-label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        /* Daily Tracking */
+        .tracking-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .slider-container {
+            margin: 15px 0;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .option-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Data Display */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .badge-success {
+            background: #e8f5e8;
+            color: #4caf50;
+        }
+
+        .badge-warning {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .badge-danger {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        /* Photo Upload */
+        .photo-upload {
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .photo-upload:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .photo-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 10px auto;
+            border-radius: 8px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .modal-header h2 {
+            color: #333;
+        }
+
+        .modal-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #1976d2;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            color: #f57c00;
+            border-left: 4px solid #f57c00;
+        }
+
+        .alert-danger {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .tabs {
+                flex-wrap: nowrap;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('sw')">Kiswahili</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">English</button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 id="pageTitle">🩸 Ufuatiliaji wa Sickle Cell Disease</h1>
+            
+            <div class="patient-selector">
+                <label id="labelSelectPatient">Chagua Mgonjwa:</label>
+                <select id="patientSelect" onchange="loadPatientData()">
+                    <option value="">-- Chagua --</option>
+                </select>
+            </div>
+            
+            <div class="patient-info" id="patientInfo" style="display: none;">
+                <span id="patientName"></span>
+            </div>
+        </div>
+
+        <!-- Red Flags Alert -->
+        <div class="red-flags-alert" id="redFlagsAlert">
+            <div class="red-flags-title" id="redFlagsAlertTitle">⚠️ DALILI ZA HATARI</div>
+            <div id="redFlagsAlertContent"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContent" style="display: none;">
+            <!-- Tabs Navigation -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('redflags')" id="tabRedFlags">🚨 Dalili za Hatari</button>
+                <button class="tab" onclick="switchTab('daily')" id="tabDaily">📝 Kila Siku</button>
+                <button class="tab" onclick="switchTab('labs')" id="tabLabs">🩺 Vipimo</button>
+                <button class="tab" onclick="switchTab('meds')" id="tabMeds">💊 Dawa</button>
+                <button class="tab" onclick="switchTab('transfusions')" id="tabTransfusions">🏥 Transfusions</button>
+                <button class="tab" onclick="switchTab('hospital')" id="tabHospital">🏨 Hospital</button>
+                <button class="tab" onclick="switchTab('baseline')" id="tabBaseline">📋 Taarifa za Msingi</button>
+            </div>
+
+            <!-- Tab: Red Flags -->
+            <div id="redflags" class="tab-content active">
+                <div class="section">
+                    <h2 id="redFlagsTitle">🚨 Dalili za Hatari - Je, Mgonjwa Ana Dalili Hizi Leo?</h2>
+                    
+                    <div class="alert-box alert-info" id="redFlagsInfo">
+                        <strong>Maelezo:</strong> Kama kuna dalili hata moja, tumia kifungo cha "Rekodi Tukio" hapo chini.
+                    </div>
+
+                    <div class="red-flags-checklist" id="redFlagsChecklist">
+                        <!-- Checkboxes populated by JavaScript -->
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; gap: 10px;">
+                        <button class="btn btn-danger" onclick="recordRedFlagEvent()" id="btnRecordRedFlag">
+                            ⚠️ Rekodi Tukio la Dalili
+                        </button>
+                        <button class="btn btn-success" onclick="clearRedFlags()" id="btnClearRedFlags">
+                            ✅ Hakuna Dalili Leo
+                        </button>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <h3 id="recentRedFlagsTitle">Matukio ya Hivi Karibuni</h3>
+                        <div id="recentRedFlagsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Daily Tracking -->
+            <div id="daily" class="tab-content">
+                <div class="section">
+                    <h2 id="dailyTitle">📝 Ufuatiliaji wa Kila Siku</h2>
+
+                    <div class="tracking-card">
+                        <h3 id="waterTitle">💧 Maji (Liters)</h3>
+                        <div class="alert-box alert-info" id="waterInfo">
+                            Lazima kunywa: <strong id="waterNeeds">...</strong> lita kwa siku
+                        </div>
+                        <div class="slider-container">
+                            <div class="slider-label">
+                                <span>0L</span>
+                                <span id="waterValue">0L</span>
+                                <span>5L</span>
+                            </div>
+                            <input type="range" min="0" max="5" step="0.1" value="0" 
+                                   class="slider" id="waterSlider" 
+                                   oninput="updateWaterValue(this.value)">
+                        </div>
+                    </div>
+
+                    <div class="tracking-card">
+                        <h3 id="clothingTitle">👕 Jinsi ya Kuvaa</h3>
+                        <div class="button-group">
+                            <button class="option-btn" onclick="selectClothing('light')" id="clothingLight">
+                                🌞 Nyepesi
+                            </button>
+                            <button class="option-btn" onclick="selectClothing('normal')" id="clothingNormal">
+                                👔 Kawaida
+                            </button>
+                            <button class="option-btn" onclick="selectClothing('warm')" id="clothingWarm">
+                                🧥 Joto
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tracking-card">
+                        <h3 id="urinationTitle">🚽 Mara Ngapi Amekojoa Leo</h3>
+                        <input type="number" class="form-input" id="urinationCount" 
+                               min="0" placeholder="Idadi ya mara">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="saveDailyTracking()" id="btnSaveDaily">
+                        💾 Hifadhi Taarifa za Leo
+                    </button>
+
+                    <div style="margin-top: 30px;">
+                        <h3 id="recentDailyTitle">Rekodi za Hivi Karibuni</h3>
+                        <div id="recentDailyList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Lab Results -->
+            <div id="labs" class="tab-content">
+                <div class="section">
+                    <h2 id="labsTitle">🩺 Matokeo ya Vipimo</h2>
+
+                    <button class="btn btn-primary" onclick="showAddLabModal()" id="btnAddLab">
+                        + Ongeza Kipimo Kipya
+                    </button>
+
+                    <div style="margin-top: 30px;">
+                        <h3 id="monthlyTestsTitle">📅 Vipimo vya Kila Mwezi</h3>
+                        <div id="monthlyTestsList"></div>
+
+                        <h3 id="sixMonthTestsTitle" style="margin-top: 30px;">📅 Vipimo vya Kila Miezi 6</h3>
+                        <div id="sixMonthTestsList"></div>
+
+                        <h3 id="yearlyTestsTitle" style="margin-top: 30px;">📅 Vipimo vya Kila Mwaka</h3>
+                        <div id="yearlyTestsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Medications -->
+            <div id="meds" class="tab-content">
+                <div class="section">
+                    <h2 id="medsTitle">💊 Dawa</h2>
+
+                    <button class="btn btn-primary" onclick="showAddMedModal()" id="btnAddMed">
+                        + Ongeza Dawa Mpya
+                    </button>
+
+                    <div style="margin-top: 30px;">
+                        <h3 id="activeMedsTitle">Dawa za Sasa</h3>
+                        <div id="activeMedsList"></div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <h3 id="stoppedMedsTitle">Dawa Zilizosimamishwa</h3>
+                        <div id="stoppedMedsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Transfusions -->
+            <div id="transfusions" class="tab-content">
+                <div class="section">
+                    <h2 id="transfusionsTitle">🏥 Transfusions za Damu</h2>
+
+                    <div class="alert-box alert-warning" id="transfusionWarning" style="display: none;">
+                        ⚠️ <strong id="transfusionWarningText"></strong>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="showAddTransfusionModal()" id="btnAddTransfusion">
+                        + Rekodi Transfusion Mpya
+                    </button>
+
+                    <div style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <h3 id="transfusionCountTitle">Jumla ya Transfusions (Miaka 5 iliyopita)</h3>
+                        <div style="font-size: 2rem; font-weight: bold; color: #667eea; margin-top: 10px;">
+                            <span id="transfusionCount">0</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <h3 id="transfusionsListTitle">Historia ya Transfusions</h3>
+                        <div id="transfusionsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Hospital -->
+            <div id="hospital" class="tab-content">
+                <div class="section">
+                    <h2 id="hospitalTitle">🏨 Hospitalizations & Operations</h2>
+
+                    <div class="form-row" style="margin-bottom: 20px;">
+                        <button class="btn btn-primary" onclick="alert('Coming soon')" id="btnAddHospitalization">
+                            + Ongeza Hospitalization
+                        </button>
+                        <button class="btn btn-primary" onclick="alert('Coming soon')" id="btnAddOperation">
+                            + Ongeza Operation
+                        </button>
+                        <button class="btn btn-primary" onclick="alert('Coming soon')" id="btnAddVaccination">
+                            + Ongeza Chanjo
+                        </button>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <h3 id="hospitalizationsTitle">Hospitalizations (Miezi 12 iliyopita)</h3>
+                        <div id="hospitalizationsList"></div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <h3 id="operationsTitle">Operations (Miezi 12 iliyopita)</h3>
+                        <div id="operationsList"></div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <h3 id="vaccinationsTitle">Chanjo / Vaccinations</h3>
+                        <div id="vaccinationsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Baseline Data -->
+            <div id="baseline" class="tab-content">
+                <div class="section">
+                    <h2 id="baselineTitle">📋 Taarifa za Msingi</h2>
+
+                    <div class="form-group">
+                        <label for="baselineHb" id="labelBaselineHb">Hb ya Kawaida (Steady-State)</label>
+                        <input type="number" class="form-input" id="baselineHb" 
+                               step="0.1" placeholder="g/dL">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="currentWeight" id="labelCurrentWeight">Uzito wa Sasa (kg)</label>
+                        <input type="number" class="form-input" id="currentWeight" 
+                               step="0.1" placeholder="kg">
+                    </div>
+
+                    <div class="form-group">
+                        <label id="labelComplications">Complications Zinazojulikana</label>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="compAVN" value="AVN">
+                            <label for="compAVN" class="checkbox-label">Avascular Necrosis (AVN)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="compStroke" value="stroke">
+                            <label for="compStroke" class="checkbox-label">Stroke (Kiharusi)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="compACS" value="ACS">
+                            <label for="compACS" class="checkbox-label">Acute Chest Syndrome</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="labelEnvironment">Mazingira</label>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="envAltitude">
+                            <label for="envAltitude" class="checkbox-label" id="labelAltitude">
+                                Anaishi milimani (high altitude)
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="saveBaselineData()" id="btnSaveBaseline">
+                        💾 Hifadhi Taarifa za Msingi
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- No patient selected message -->
+        <div id="noPatientMessage" class="section" style="display: none;">
+            <p style="text-align: center; color: #666;">Tafadhali chagua mgonjwa kutoka hapo juu</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p id="footerText">Created in collaboration with Peter David Masasi, hematologist</p>
+        </div>
+    </div>
+
+    <!-- Add Lab Modal -->
+    <div id="addLabModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalLabTitle">Ongeza Kipimo Kipya</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="labDate" id="labelLabDate">Tarehe</label>
+                <input type="date" class="form-input" id="labDate">
+            </div>
+
+            <div class="form-group">
+                <label for="labType" id="labelLabType">Aina ya Kipimo</label>
+                <select class="form-input" id="labType">
+                    <option value="">-- Chagua --</option>
+                    <option value="hb">Hemoglobin (Hb)</option>
+                    <option value="bp">Blood Pressure (BP)</option>
+                    <option value="protein">Protein in Urine</option>
+                    <option value="creatinine">Creatinine</option>
+                    <option value="urea">Urea</option>
+                    <option value="liver">Liver Enzymes</option>
+                    <option value="vitB12">Vitamin B12</option>
+                    <option value="vitD">Vitamin D</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="labValue" id="labelLabValue">Thamani / Value</label>
+                <input type="text" class="form-input" id="labValue" placeholder="e.g., 8.5">
+            </div>
+
+            <div class="form-group">
+                <label for="labPhoto" id="labelLabPhoto">Picha ya Matokeo (optional)</label>
+                <div class="photo-upload" onclick="document.getElementById('labPhotoInput').click()">
+                    <p>📷 Bofya kupakia picha</p>
+                    <img id="labPhotoPreview" class="photo-preview" style="display: none;">
+                </div>
+                <input type="file" id="labPhotoInput" accept="image/*" style="display: none;" 
+                       onchange="previewPhoto(this, 'labPhotoPreview')">
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addLabModal')" id="btnCancelLab">
+                    Ghairi
+                </button>
+                <button class="btn btn-primary" onclick="saveLabResult()" id="btnSaveLab">
+                    💾 Hifadhi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Medication Modal -->
+    <div id="addMedModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalMedTitle">Ongeza Dawa Mpya</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="medName" id="labelMedName">Jina la Dawa</label>
+                <input type="text" class="form-input" id="medName" placeholder="e.g., Hydroxiurea">
+            </div>
+
+            <div class="form-group">
+                <label for="medDosage" id="labelMedDosage">Kipimo / Dosage</label>
+                <input type="text" class="form-input" id="medDosage" placeholder="e.g., 500mg">
+            </div>
+
+            <div class="form-group">
+                <label for="medStartDate" id="labelMedStartDate">Tarehe ya Kuanza</label>
+                <input type="date" class="form-input" id="medStartDate">
+            </div>
+
+            <div class="form-group">
+                <label for="medPhoto" id="labelMedPhoto">Picha ya Dawa (optional)</label>
+                <div class="photo-upload" onclick="document.getElementById('medPhotoInput').click()">
+                    <p>📷 Bofya kupakia picha</p>
+                    <img id="medPhotoPreview" class="photo-preview" style="display: none;">
+                </div>
+                <input type="file" id="medPhotoInput" accept="image/*" style="display: none;" 
+                       onchange="previewPhoto(this, 'medPhotoPreview')">
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addMedModal')" id="btnCancelMed">
+                    Ghairi
+                </button>
+                <button class="btn btn-primary" onclick="saveMedication()" id="btnSaveMed">
+                    💾 Hifadhi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Transfusion Modal -->
+    <div id="addTransfusionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTransfusionTitle">Rekodi Transfusion</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="transfusionDate" id="labelTransfusionDate">Tarehe</label>
+                <input type="date" class="form-input" id="transfusionDate">
+            </div>
+
+            <div class="form-group">
+                <label for="transfusionReason" id="labelTransfusionReason">Sababu</label>
+                <input type="text" class="form-input" id="transfusionReason" 
+                       placeholder="e.g., Hb chini sana">
+            </div>
+
+            <div class="form-group">
+                <label for="transfusionAmount" id="labelTransfusionAmount">Kiasi / Amount</label>
+                <input type="text" class="form-input" id="transfusionAmount" 
+                       placeholder="e.g., 1 unit">
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addTransfusionModal')" id="btnCancelTransfusion">
+                    Ghairi
+                </button>
+                <button class="btn btn-primary" onclick="saveTransfusion()" id="btnSaveTransfusion">
+                    💾 Hifadhi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts - CORRECT PATHS -->
+    <script src="../js/core/database.js"></script>
+    <script src="../js/core/sickle-cell-manager.js"></script>
+    <script src="../js/sickle-cell-analyzer.js"></script>
+    <script>
+        // CONTINUED IN NEXT PART - FILE IS TOO LONG
+    </script>
+</body>
+</html>
+    <!-- Scripts - CORRECT PATHS -->
+    <script src="../js/core/database.js"></script>
+    <script src="../js/core/sickle-cell-manager.js"></script>
+    <script src="../js/sickle-cell-analyzer.js"></script>
+    <script>
+        // Global variables
+        let currentLanguage = 'sw';
+        let currentMemberId = null;
+        let analyzer = null;
+        let selectedClothing = null;
+
+        // Red flags data
+        const redFlagsData = {
+            sw: [
+                { id: 'chest_pain', text: 'Maumivu ya kifua ghafla / Chest tightness' },
+                { id: 'jaundice', text: 'Manjano - macho, mdomo, mikono / Jaundice' },
+                { id: 'decreased_urine', text: 'Kupungua mkojo / Decreased urine output' },
+                { id: 'abdominal_pain', text: 'Maumivu tumbo ghafla / Sudden abdominal pain' },
+                { id: 'joint_pain', text: 'Viungo na mifupa maumivu / Joint and bone pain' },
+                { id: 'blurred_vision', text: 'Kuona ukungu / Blurred vision' },
+                { id: 'stroke_face', text: 'Uso unaanguka upande mmoja / Face drooping' },
+                { id: 'stroke_arm', text: 'Mkono hauinuki/dhaifu / Arm weakness' },
+                { id: 'stroke_speech', text: 'Usemi haufahamiki / Speech difficulty' },
+                { id: 'stroke_vision', text: 'Macho hayaoni vizuri ghafla / Vision problems' },
+                { id: 'stroke_headache', text: 'Maumivu makali ya kichwa / Severe headache' },
+                { id: 'stroke_dizzy', text: 'Kizunguzungu/kutoweza kutembea / Dizziness' },
+                { id: 'priapism', text: 'Priapism' }
+            ],
+            en: [
+                { id: 'chest_pain', text: 'Sudden chest tightness/pain' },
+                { id: 'jaundice', text: 'Jaundice - yellow eyes, mouth, palms' },
+                { id: 'decreased_urine', text: 'Decreased urine output' },
+                { id: 'abdominal_pain', text: 'Sudden abdominal pain' },
+                { id: 'joint_pain', text: 'Joint and bone pain in extremities' },
+                { id: 'blurred_vision', text: 'Blurred vision' },
+                { id: 'stroke_face', text: 'Face drooping' },
+                { id: 'stroke_arm', text: 'Arm weakness' },
+                { id: 'stroke_speech', text: 'Speech difficulty' },
+                { id: 'stroke_vision', text: 'Sudden vision problems' },
+                { id: 'stroke_headache', text: 'Severe headache' },
+                { id: 'stroke_dizzy', text: 'Dizziness/unable to walk' },
+                { id: 'priapism', text: 'Priapism' }
+            ]
+        };
+
+        // Initialize
+        window.onload = async function() {
+            await sickleCellManager.init();
+            analyzer = new SickleCellAnalyzer();
+            loadPatients();
+            renderRedFlagsChecklist();
+        };
+
+        // Load patients from familyDB
+        function loadPatients() {
+            const data = window.familyDB.getData();
+            const select = document.getElementById('patientSelect');
+            
+            select.innerHTML = '<option value="">-- Chagua --</option>';
+            
+            // TODO: Filter only sickle cell patients when we have patient types
+            if (data.members && data.members.length > 0) {
+                data.members.forEach(member => {
+                    const option = document.createElement('option');
+                    option.value = member.id;
+                    option.textContent = member.name;
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        // Load patient data
+        async function loadPatientData() {
+            const memberId = document.getElementById('patientSelect').value;
+            
+            if (!memberId) {
+                currentMemberId = null;
+                document.getElementById('mainContent').style.display = 'none';
+                document.getElementById('noPatientMessage').style.display = 'block';
+                return;
+            }
+            
+            currentMemberId = memberId;
+            
+            const data = window.familyDB.getData();
+            const member = data.members.find(m => m.id === memberId);
+            
+            if (member) {
+                document.getElementById('patientName').textContent = member.name;
+                document.getElementById('patientInfo').style.display = 'flex';
+                document.getElementById('mainContent').style.display = 'block';
+                document.getElementById('noPatientMessage').style.display = 'none';
+                
+                await loadAllData();
+            }
+        }
+
+        async function loadAllData() {
+            const baseline = await sickleCellManager.getBaselineData(currentMemberId);
+            if (baseline && baseline.currentWeight) {
+                const waterNeeds = analyzer.calculateWaterNeeds(baseline.currentWeight);
+                document.getElementById('waterNeeds').textContent = waterNeeds.liters;
+            }
+
+            const activeTab = document.querySelector('.tab.active').getAttribute('onclick').match(/switchTab\('(.+)'\)/)[1];
+            await loadTabData(activeTab);
+        }
+
+        // Language switcher
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            renderRedFlagsChecklist();
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            loadTabData(tabName);
+        }
+
+        async function loadTabData(tabName) {
+            if (!currentMemberId) return;
+
+            switch(tabName) {
+                case 'redflags':
+                    await loadRecentRedFlags();
+                    break;
+                case 'daily':
+                    await loadRecentDaily();
+                    break;
+                case 'labs':
+                    await loadLabResults();
+                    break;
+                case 'meds':
+                    await loadMedications();
+                    break;
+                case 'transfusions':
+                    await loadTransfusions();
+                    break;
+                case 'hospital':
+                    await loadHospitalData();
+                    break;
+                case 'baseline':
+                    await loadBaselineData();
+                    break;
+            }
+        }
+
+        // Red Flags functionality
+        function renderRedFlagsChecklist() {
+            const container = document.getElementById('redFlagsChecklist');
+            container.innerHTML = '';
+
+            const flags = redFlagsData[currentLanguage];
+
+            flags.forEach(flag => {
+                const div = document.createElement('div');
+                div.className = 'checkbox-item';
+                div.id = `checkbox-${flag.id}`;
+
+                div.innerHTML = `
+                    <input type="checkbox" id="${flag.id}" value="${flag.id}" 
+                           onchange="checkRedFlag(this)">
+                    <label for="${flag.id}" class="checkbox-label">${flag.text}</label>
+                `;
+
+                container.appendChild(div);
+            });
+        }
+
+        function checkRedFlag(checkbox) {
+            const parent = checkbox.closest('.checkbox-item');
+            if (checkbox.checked) {
+                parent.classList.add('checked');
+            } else {
+                parent.classList.remove('checked');
+            }
+
+            const anyChecked = document.querySelectorAll('.red-flags-checklist input[type="checkbox"]:checked').length > 0;
+            const alert = document.getElementById('redFlagsAlert');
+            
+            if (anyChecked) {
+                alert.classList.add('active', 'danger');
+            } else {
+                alert.classList.remove('active');
+            }
+        }
+
+        function clearRedFlags() {
+            document.querySelectorAll('.red-flags-checklist input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+                cb.closest('.checkbox-item').classList.remove('checked');
+            });
+            document.getElementById('redFlagsAlert').classList.remove('active');
+            
+            alert(currentLanguage === 'sw' ? '✅ Vizuri! Hakuna dalili za hatari.' : '✅ Good! No red flags.');
+        }
+
+        async function recordRedFlagEvent() {
+            if (!currentMemberId) {
+                alert('Tafadhali chagua mgonjwa kwanza!');
+                return;
+            }
+
+            const checkedBoxes = document.querySelectorAll('.red-flags-checklist input[type="checkbox"]:checked');
+            
+            if (checkedBoxes.length === 0) {
+                alert(currentLanguage === 'sw' ? 'Tafadhali chagua dalili kwanza!' : 'Please select symptoms first!');
+                return;
+            }
+
+            const symptoms = Array.from(checkedBoxes).map(cb => cb.value);
+
+            const actionTaken = prompt(currentLanguage === 'sw' ? 
+                'Hatua zilizochukuliwa (mfano: tulipeleka hospitali):' :
+                'Action taken (e.g., went to hospital):');
+
+            if (!actionTaken) return;
+
+            await sickleCellManager.saveRedFlagEvent({
+                memberId: currentMemberId,
+                date: new Date().toISOString(),
+                symptoms: symptoms,
+                actionTaken: actionTaken,
+                outcome: '',
+                notes: ''
+            });
+
+            alert(currentLanguage === 'sw' ? '✅ Tukio limerekodiwa!' : '✅ Event recorded!');
+            clearRedFlags();
+            await loadRecentRedFlags();
+        }
+
+        async function loadRecentRedFlags() {
+            if (!currentMemberId) return;
+
+            const events = await sickleCellManager.getRedFlagEvents(currentMemberId, 30);
+            const container = document.getElementById('recentRedFlagsList');
+
+            if (events.length === 0) {
+                container.innerHTML = `<p style="color: #999;">${currentLanguage === 'sw' ? 'Hakuna matukio ya hivi karibuni' : 'No recent events'}</p>`;
+                return;
+            }
+
+            let html = '<table class="data-table"><thead><tr>';
+            html += currentLanguage === 'sw' ? '<th>Tarehe</th><th>Dalili</th><th>Hatua</th>' : '<th>Date</th><th>Symptoms</th><th>Action</th>';
+            html += '</tr></thead><tbody>';
+
+            events.forEach(event => {
+                const date = new Date(event.date).toLocaleDateString(currentLanguage === 'sw' ? 'sw-TZ' : 'en-US');
+                html += `<tr>
+                    <td>${date}</td>
+                    <td><span class="badge badge-danger">${event.symptoms.length} ${currentLanguage === 'sw' ? 'dalili' : 'symptoms'}</span></td>
+                    <td>${event.actionTaken || '-'}</td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // Daily Tracking functionality
+        function updateWaterValue(value) {
+            document.getElementById('waterValue').textContent = value + 'L';
+        }
+
+        function selectClothing(type) {
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+            selectedClothing = type;
+        }
+
+        async function saveDailyTracking() {
+            if (!currentMemberId) {
+                alert('Tafadhali chagua mgonjwa kwanza!');
+                return;
+            }
+
+            const waterIntake = parseFloat(document.getElementById('waterSlider').value);
+            const urination = parseInt(document.getElementById('urinationCount').value) || 0;
+
+            if (!selectedClothing) {
+                alert(currentLanguage === 'sw' ? 'Tafadhali chagua jinsi ya kuvaa!' : 'Please select clothing type!');
+                return;
+            }
+
+            await sickleCellManager.saveDailyTracking({
+                memberId: currentMemberId,
+                date: new Date().toISOString(),
+                waterIntake: waterIntake,
+                clothing: selectedClothing,
+                urinationFrequency: urination,
+                notes: ''
+            });
+
+            alert(currentLanguage === 'sw' ? '✅ Taarifa zimehifadhiwa!' : '✅ Data saved!');
+            
+            document.getElementById('waterSlider').value = 0;
+            updateWaterValue(0);
+            document.getElementById('urinationCount').value = '';
+            document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+            selectedClothing = null;
+
+            await loadRecentDaily();
+        }
+
+        async function loadRecentDaily() {
+            if (!currentMemberId) return;
+
+            const records = await sickleCellManager.getDailyTracking(currentMemberId, 7);
+            const container = document.getElementById('recentDailyList');
+
+            if (records.length === 0) {
+                container.innerHTML = `<p style="color: #999;">${currentLanguage === 'sw' ? 'Hakuna rekodi' : 'No records'}</p>`;
+                return;
+            }
+
+            let html = '<table class="data-table"><thead><tr>';
+            html += currentLanguage === 'sw' ? '<th>Tarehe</th><th>Maji</th><th>Kuvaa</th><th>Mikojo</th>' : 
+                                                '<th>Date</th><th>Water</th><th>Clothing</th><th>Urination</th>';
+            html += '</tr></thead><tbody>';
+
+            records.forEach(record => {
+                const date = new Date(record.date).toLocaleDateString(currentLanguage === 'sw' ? 'sw-TZ' : 'en-US');
+                html += `<tr>
+                    <td>${date}</td>
+                    <td>${record.waterIntake}L</td>
+                    <td>${record.clothing}</td>
+                    <td>${record.urinationFrequency}</td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // Modal functions
+        function showAddLabModal() {
+            document.getElementById('addLabModal').classList.add('show');
+            document.getElementById('labDate').value = new Date().toISOString().split('T')[0];
+        }
+
+        function showAddMedModal() {
+            document.getElementById('addMedModal').classList.add('show');
+            document.getElementById('medStartDate').value = new Date().toISOString().split('T')[0];
+        }
+
+        function showAddTransfusionModal() {
+            document.getElementById('addTransfusionModal').classList.add('show');
+            document.getElementById('transfusionDate').value = new Date().toISOString().split('T')[0];
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function previewPhoto(input, previewId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById(previewId);
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        async function saveLabResult() {
+            if (!currentMemberId) return;
+
+            const date = document.getElementById('labDate').value;
+            const testType = document.getElementById('labType').value;
+            const value = document.getElementById('labValue').value;
+
+            if (!date || !testType || !value) {
+                alert(currentLanguage === 'sw' ? 'Tafadhali jaza taarifa zote!' : 'Please fill all fields!');
+                return;
+            }
+
+            let photo = null;
+            const photoInput = document.getElementById('labPhotoInput');
+            if (photoInput.files && photoInput.files[0]) {
+                const reader = new FileReader();
+                photo = await new Promise((resolve) => {
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(photoInput.files[0]);
+                });
+            }
+
+            await sickleCellManager.saveLabResult({
+                memberId: currentMemberId,
+                date: date,
+                testType: testType,
+                value: parseFloat(value),
+                unit: '',
+                photo: photo,
+                notes: ''
+            });
+
+            alert(currentLanguage === 'sw' ? '✅ Kipimo kimehifadhiwa!' : '✅ Lab result saved!');
+            closeModal('addLabModal');
+            await loadLabResults();
+
+            document.getElementById('labType').value = '';
+            document.getElementById('labValue').value = '';
+            document.getElementById('labPhotoInput').value = '';
+            document.getElementById('labPhotoPreview').style.display = 'none';
+        }
+
+        async function saveMedication() {
+            if (!currentMemberId) return;
+
+            const name = document.getElementById('medName').value;
+            const dosage = document.getElementById('medDosage').value;
+            const startDate = document.getElementById('medStartDate').value;
+
+            if (!name || !dosage || !startDate) {
+                alert(currentLanguage === 'sw' ? 'Tafadhali jaza taarifa zote!' : 'Please fill all fields!');
+                return;
+            }
+
+            let photo = null;
+            const photoInput = document.getElementById('medPhotoInput');
+            if (photoInput.files && photoInput.files[0]) {
+                const reader = new FileReader();
+                photo = await new Promise((resolve) => {
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(photoInput.files[0]);
+                });
+            }
+
+            await sickleCellManager.saveMedication({
+                memberId: currentMemberId,
+                name: name,
+                dosage: dosage,
+                startDate: startDate,
+                photo: photo
+            });
+
+            alert(currentLanguage === 'sw' ? '✅ Dawa imehifadhiwa!' : '✅ Medication saved!');
+            closeModal('addMedModal');
+            await loadMedications();
+
+            document.getElementById('medName').value = '';
+            document.getElementById('medDosage').value = '';
+            document.getElementById('medPhotoInput').value = '';
+            document.getElementById('medPhotoPreview').style.display = 'none';
+        }
+
+        async function saveTransfusion() {
+            if (!currentMemberId) return;
+
+            const date = document.getElementById('transfusionDate').value;
+            const reason = document.getElementById('transfusionReason').value;
+            const amount = document.getElementById('transfusionAmount').value;
+
+            if (!date || !reason) {
+                alert(currentLanguage === 'sw' ? 'Tafadhali jaza taarifa zote!' : 'Please fill all fields!');
+                return;
+            }
+
+            await sickleCellManager.saveTransfusion({
+                memberId: currentMemberId,
+                date: date,
+                reason: reason,
+                amount: amount,
+                notes: ''
+            });
+
+            alert(currentLanguage === 'sw' ? '✅ Transfusion imerekodiwa!' : '✅ Transfusion recorded!');
+            closeModal('addTransfusionModal');
+            await loadTransfusions();
+
+            document.getElementById('transfusionReason').value = '';
+            document.getElementById('transfusionAmount').value = '';
+        }
+
+        async function loadLabResults() {
+            if (!currentMemberId) return;
+            // PLACEHOLDER: Display lab results
+            console.log('Loading lab results...');
+        }
+
+        async function loadMedications() {
+            if (!currentMemberId) return;
+
+            const activeMeds = await sickleCellManager.getMedications(currentMemberId, true);
+            const allMeds = await sickleCellManager.getMedications(currentMemberId, false);
+            const stoppedMeds = allMeds.filter(m => !m.active);
+
+            const activeContainer = document.getElementById('activeMedsList');
+            if (activeMeds.length === 0) {
+                activeContainer.innerHTML = `<p style="color: #999;">${currentLanguage === 'sw' ? 'Hakuna dawa' : 'No medications'}</p>`;
+            } else {
+                let html = '<table class="data-table"><thead><tr>';
+                html += currentLanguage === 'sw' ? '<th>Dawa</th><th>Kipimo</th><th>Kuanza</th><th></th>' : 
+                                                    '<th>Medication</th><th>Dosage</th><th>Started</th><th></th>';
+                html += '</tr></thead><tbody>';
+
+                activeMeds.forEach(med => {
+                    const startDate = new Date(med.startDate).toLocaleDateString(currentLanguage === 'sw' ? 'sw-TZ' : 'en-US');
+                    html += `<tr>
+                        <td><strong>${med.name}</strong></td>
+                        <td>${med.dosage}</td>
+                        <td>${startDate}</td>
+                        <td><button class="btn btn-danger" onclick="stopMedicationPrompt(${med.id})">Simamisha</button></td>
+                    </tr>`;
+                });
+
+                html += '</tbody></table>';
+                activeContainer.innerHTML = html;
+            }
+
+            const stoppedContainer = document.getElementById('stoppedMedsList');
+            if (stoppedMeds.length === 0) {
+                stoppedContainer.innerHTML = `<p style="color: #999;">${currentLanguage === 'sw' ? 'Hakuna' : 'None'}</p>`;
+            } else {
+                let html = '<table class="data-table"><thead><tr>';
+                html += currentLanguage === 'sw' ? '<th>Dawa</th><th>Sababu</th><th>Tarehe</th>' : 
+                                                    '<th>Medication</th><th>Reason</th><th>Date</th>';
+                html += '</tr></thead><tbody>';
+
+                stoppedMeds.forEach(med => {
+                    const stopDate = new Date(med.stopDate).toLocaleDateString(currentLanguage === 'sw' ? 'sw-TZ' : 'en-US');
+                    html += `<tr>
+                        <td><strong>${med.name}</strong></td>
+                        <td>${med.stopReason || '-'}</td>
+                        <td>${stopDate}</td>
+                    </tr>`;
+                });
+
+                html += '</tbody></table>';
+                stoppedContainer.innerHTML = html;
+            }
+        }
+
+        async function stopMedicationPrompt(medId) {
+            const reason = prompt(currentLanguage === 'sw' ? 
+                'Sababu ya kusimamisha dawa (mfano: platelet count chini):' :
+                'Reason for stopping (e.g., low platelet count):');
+
+            if (!reason) return;
+
+            await sickleCellManager.stopMedication(medId, reason);
+            alert(currentLanguage === 'sw' ? '✅ Dawa imesimamishwa!' : '✅ Medication stopped!');
+            await loadMedications();
+        }
+
+        async function loadTransfusions() {
+            if (!currentMemberId) return;
+
+            const transfusions = await sickleCellManager.getTransfusions(currentMemberId);
+            const count = await sickleCellManager.getTransfusionCount(currentMemberId);
+            
+            document.getElementById('transfusionCount').textContent = count;
+
+            const risk = analyzer.checkTransfusionRisk(transfusions);
+            const warningDiv = document.getElementById('transfusionWarning');
+            if (risk.hasRisk) {
+                warningDiv.style.display = 'block';
+                document.getElementById('transfusionWarningText').textContent = risk.message[currentLanguage];
+            } else {
+                warningDiv.style.display = 'none';
+            }
+
+            const container = document.getElementById('transfusionsList');
+            if (transfusions.length === 0) {
+                container.innerHTML = `<p style="color: #999;">${currentLanguage === 'sw' ? 'Hakuna transfusions' : 'No transfusions'}</p>`;
+                return;
+            }
+
+            let html = '<table class="data-table"><thead><tr>';
+            html += currentLanguage === 'sw' ? '<th>Tarehe</th><th>Sababu</th><th>Kiasi</th>' : 
+                                                '<th>Date</th><th>Reason</th><th>Amount</th>';
+            html += '</tr></thead><tbody>';
+
+            transfusions.forEach(t => {
+                const date = new Date(t.date).toLocaleDateString(currentLanguage === 'sw' ? 'sw-TZ' : 'en-US');
+                html += `<tr>
+                    <td>${date}</td>
+                    <td>${t.reason}</td>
+                    <td>${t.amount || '-'}</td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        async function loadHospitalData() {
+            if (!currentMemberId) return;
+            console.log('Loading hospital data...');
+        }
+
+        async function loadBaselineData() {
+            if (!currentMemberId) return;
+
+            const baseline = await sickleCellManager.getBaselineData(currentMemberId);
+            
+            if (baseline) {
+                document.getElementById('baselineHb').value = baseline.normalHb || '';
+                document.getElementById('currentWeight').value = baseline.currentWeight || '';
+                
+                if (baseline.knownComplications) {
+                    baseline.knownComplications.forEach(comp => {
+                        const checkbox = document.getElementById(`comp${comp}`);
+                        if (checkbox) checkbox.checked = true;
+                    });
+                }
+
+                if (baseline.environmentalRisks && baseline.environmentalRisks.altitude) {
+                    document.getElementById('envAltitude').checked = true;
+                }
+            }
+        }
+
+        async function saveBaselineData() {
+            if (!currentMemberId) return;
+
+            const normalHb = parseFloat(document.getElementById('baselineHb').value);
+            const currentWeight = parseFloat(document.getElementById('currentWeight').value);
+
+            if (!normalHb || !currentWeight) {
+                alert(currentLanguage === 'sw' ? 'Tafadhali jaza taarifa zote!' : 'Please fill all required fields!');
+                return;
+            }
+
+            const complications = [];
+            ['AVN', 'stroke', 'ACS'].forEach(comp => {
+                const checkbox = document.getElementById(`comp${comp}`);
+                if (checkbox && checkbox.checked) {
+                    complications.push(comp);
+                }
+            });
+
+            const environmentalRisks = {
+                altitude: document.getElementById('envAltitude').checked
+            };
+
+            await sickleCellManager.saveBaselineData({
+                memberId: currentMemberId,
+                normalHb: normalHb,
+                currentWeight: currentWeight,
+                knownComplications: complications,
+                environmentalRisks: environmentalRisks
+            });
+
+            alert(currentLanguage === 'sw' ? '✅ Taarifa zimehifadhiwa!' : '✅ Baseline data saved!');
+        }
+    </script>
+</body>
+</html>
